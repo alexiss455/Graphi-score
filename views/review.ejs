@@ -1,0 +1,71 @@
+<%- include('partials/header'); -%>
+<section class="section-content-review">
+<main>
+<div class="review-container containers">
+<div class="review-content">
+    <div class="review-title">
+        <i class='bx bxs-comment-detail'></i>
+        <h1>Review</h1>
+    </div>
+    <div class="review-prod">
+        <h3>Product</h3>
+        <div class="search-product-review">
+            <input type="text" placeholder="Search a product to review">
+        </div>
+    </div>
+    <div class="rating-prod">
+        <h3>Rating</h3>
+        <div class="star-rate">
+
+            <div class="stars">
+        
+            <input type="radio" id="rate-5" name="rate">
+            <label for="rate-5" class='bx bxs-star'></label>  
+              
+            <input type="radio" id="rate-4" name="rate">
+            <label for="rate-4" class='bx bxs-star'></label> 
+
+            <input type="radio" id="rate-3" name="rate">
+            <label for="rate-3" class='bx bxs-star'></label> 
+
+            <input type="radio" id="rate-2" name="rate">
+            <label for="rate-2" class='bx bxs-star'></label>
+
+            <input type="radio" id="rate-1" name="rate">
+            <label for="rate-1" class='bx bxs-star'></label>
+
+            </div>
+
+        </div>  
+    </div>
+    <div class="review">
+        <h3>Review</h3>
+        <textarea name="" id="" cols="30" rows="7" placeholder="Describe your Experience"></textarea>
+    </div>
+<div class="btn-review">
+    <button>Post my review</button>
+</div>
+</div>
+
+<div class="review-item">
+    <div class="review-card">
+        <img src="/img/news1.jpg" alt="review-img" class="review-pic">
+        <div class="prod-review">
+            <h1>Product Name</h1>
+            <div class="stars-review">
+                <div class="stars">
+                    <p>⭐⭐⭐⭐⭐</p>
+                    <p>3.6</p>
+                </div>  
+            </div>
+            <div class="review-ratings">
+                <p>5 Ratings</p>
+                <p>2 Review</p>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</main>
+</section>
+<%- include('partials/footer'); -%>

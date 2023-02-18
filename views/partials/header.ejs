@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- icons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- main css -->
+    <link rel="stylesheet" href="/css/style.css">
+    <title>GraphiScore</title>
+</head>
+<body>
+    <header>
+    <main>
+    <section class="section-head">
+    <div class="containers nav-container">
+    <div class="logo">
+        <a href="/">
+        <div class="myG">
+            <img src="/img/My_project1.png" alt="LOGOS" class="logo-head">
+            <span>raphiScore</span>
+        </div>
+        </a>
+       <div class="search">
+            <div class="icon-search">
+                <i class='bx bx-search'></i>
+            </div>
+            <div class="input-search">
+                <input type="text" placeholder="search" class="input-searchs">
+                <i class='bx bx-x x-Close'></i>
+            </div>
+       </div>
+    </div>
+   
+            <nav class="navigation">
+                <ul class="nav-link">
+                    <a href="/review" class="link">Review</a>
+                    <a href="/graphiscore" class="link">GraphiScore</a>
+                    <a href="" class="link">About</a>
+                </ul>
+                <% if(prof === true){ %>
+                    <%- include('user/iflogin'); -%>
+                <% }else{ %>
+                    <%- include('user/ifnotlogin'); -%>
+                <% } %>
+                <div>
+                <div class="close">
+                    <i class='bx bx-x'></i>
+                </div>
+                </div>
+            </nav>
+        <div class="menu">
+        <i class='bx bx-menu'></i>
+      </div>
+   </div>
+   </section>
+</main>
+</header>

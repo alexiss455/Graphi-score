@@ -1,0 +1,42 @@
+<%- include('partials/header'); -%>
+<main>
+  <div class="containers container-login container-register">
+    <div class="login-form order-register">
+
+      <% if (error) { %>
+        <div class="error">
+          <i class='bx bxs-x-square error_close'></i>
+          <%= error %>
+        </div>
+        <% } %>
+
+      <h1 class="form-login">Register</h1>
+      <form action="/register" method="post" class="form-login">
+        <p>Display Name</p>
+        <input
+          type="text"
+          placeholder="What do we call you"
+          name="display_name"
+          required
+        />
+        <p>Email</p>
+        <input
+          type="email"
+          placeholder="Enter your email here"
+          name="username"
+          required
+        />
+        <p>Password</p>
+        <input
+          type="password"
+          placeholder="Enter your password here"
+          name="password"
+          required
+        />
+        <button type="submit" class="btn-log register-btn">Register</button>
+      </form>
+    </div>
+    <div class="pics-regs"></div>
+  </div>
+</main>
+<%- include('partials/footer'); -%>

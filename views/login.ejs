@@ -1,0 +1,24 @@
+<%- include('partials/header'); -%>
+<main>
+<div class="containers container-login">
+<div class="login-form">
+   <h1 class="form-login">Rate your best experien in GPU</h1>
+   
+    <form action="/login" method="post" class="form-login">
+        <p>Email</p>
+        <input type="email" placeholder="Enter your email here" name="username">
+        <p>Password</p>
+        <input type="password" placeholder="Enter your password here" name="password">
+            <button type="submit" class="btn-log">Login</button>
+           <div class="logs-bot">
+            <p id="logs"><a href="/register">Create Accout</a></p>
+            <p id="logs"><a href="/register">Cant't Sign in</a></p>
+             </div>
+    </form>
+   
+</div>
+<div class="pics-log">
+</div>
+</div>
+</main>
+<%- include('partials/footer'); -%>
