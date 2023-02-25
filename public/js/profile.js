@@ -1,7 +1,6 @@
-var navform = document.querySelector(".profile-nav-settings");
-var navProf = document.querySelector(".account-login-navs");
-
 try {
+  var navform = document.querySelector(".profile-nav-settings");
+  var navProf = document.querySelector(".account-login-navs");  
   navProf.addEventListener('click', function() {
     if (window.innerWidth >= 1100) {
       if (navform.style.display === "block") {
@@ -13,6 +12,26 @@ try {
       }
     }
   });
+  document.addEventListener("click", function(event) {
+    if (!navProf.contains(event.target) && !navform.contains(event.target)) {
+      navform.style.display = "none";
+    }
+  });
 } catch (error) {
 
 }
+ // Get the error message element
+ const errorMessage = document.getElementById("error-message");
+ // If the element exists, set a timeout to remove it after 5 seconds
+ if (errorMessage) {
+   setTimeout(() => {
+     // Add the 'fade-out' class to trigger the CSS transition
+     errorMessage.classList.add("fade-out");
+     // Wait for the transition to complete before removing the element
+     setTimeout(() => {
+       errorMessage.remove();
+     }, 800);
+   }, 3500);
+ }
+
+

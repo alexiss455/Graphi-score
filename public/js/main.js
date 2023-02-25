@@ -1,52 +1,59 @@
-var navMenu = document.querySelector(".menu");
-var nav11= document.querySelector(".navigation");
-var navClose = document.querySelector(".close");
+function sendData(e) {
+  const viewResult = document.getElementById("search-results-review");
+  const h1_text = document.querySelector(".text_Name");
+  const reviewPic = document.querySelector(".review-pic");
+  const inputview = document.getElementById("search-product-review");
+  const rating = document.querySelector(".ratings");
+  const reviews = document.querySelector(".reviews");
+  const avrg = document.querySelector(".arverage");
+  fetch("search", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ payload: e.value }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      viewResult.innerHTML = "";
+      let payload = data.payload;
 
-var icons = document.querySelector(".bx-search");
+      if (payload.length < 1) {
+        viewResult.innerHTML = "<p>sorry not found</p>";
+        return;
+      }
+      payload.forEach((item, index) => {
+        let pElement = document.createElement("p");
+        pElement.textContent = item.productName;
+        pElement.addEventListener("click", () => {
+          h1_text.innerHTML = item.productName;
+          reviewPic.setAttribute("alt", item.productName);
+          reviewPic.setAttribute(
+            "src",
+            `data:image/png;base64,${item.productImage}`
+          );
+          inputview.setAttribute("placeholder", item.productName);
+          inputview.value = item.productName;
+          viewResult.style.display = "none";
 
-var searchBar = document.querySelector(".input-search");
-var closeBar = document.querySelector(".x-Close");
-
-if(navMenu){
-navMenu.addEventListener("click", function(){
-nav11.classList.add('show')
-});
+          fetch(`/usersWhoRated?prodReview=${item.productName}`)
+            .then((response) => response.json())
+            .then((data) => {
+              rating.innerHTML = data.numberOfUsers + " Ratings";
+              var sum = data.sumOfRatings;
+              const sums = sum.reduce((acc, curr) => acc + curr, 0);
+              const average = sums / sum.length;
+              if (isNaN(average)) {
+                avrg.innerHTML = "⭐0";
+              } else {
+                avrg.innerHTML = "⭐" + average.toFixed(1);
+              }
+            });
+          fetch(`/usersWhoReviewed?prodReview=${item.productName}`)
+            .then((response) => response.json())
+            .then((data) => {
+              reviews.innerHTML = data.usersWhoReviewed.length + " Reviews";
+            });
+        });
+        viewResult.appendChild(pElement);
+      });
+    });
 }
-if(navClose){
-navClose.addEventListener("click", function(){
-    nav11.classList.remove('show')  
-});
-}
-if(icons){
-icons.addEventListener("click", function(){
-searchBar.classList.add("show-bar");
-});
-}
-if(closeBar){
-closeBar.addEventListener("click", function(){
-searchBar.classList.remove("show-bar");
-});
-}
-
-try {
-var errnav = document.querySelector(".error");
-var err_close = document.querySelector(".error_close");
-
-err_close.addEventListener("click",function(){
- errnav.classList.add("error__close");
-});
-} catch (error) {
-    
-}
-
-
-
-
-
-
-
-
-
-
-
-

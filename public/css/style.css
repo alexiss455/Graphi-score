@@ -246,6 +246,9 @@ header {
 .pic-products {
   width: 100%;
   height: 100%;
+  position: relative;
+  object-position: center;
+  object-fit: cover;
   overflow: hidden;
   transition: transform 0.4s ease-in-out;
 }
@@ -263,37 +266,43 @@ header {
   overflow: hidden;
   position: relative;
   transition: 0.5s;
+  background-color: #000000;
 }
 .pic-products:hover {
   transform: scale(1.15);
 }
 .prods-cards:hover {
-  background-color: #dededed4;
+  background-color: #c5c5c5d4;
 }
 .prod-grid {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 0.5fr 1fr;
+
 }
 .prods-cards {
-  padding: 1.75rem;
+  padding: 1.5rem;
   padding-top: 0.85rem;
+  background-color: white;
+}
+.description_container{
+  padding: 1px;
 }
 .product-rating {
   display: flex;
+  align-items: center;
+  flex-direction: row;
   justify-content: space-between;
+  column-gap: .5rem;
+  font-weight: 500;
 }
-.product-rating :nth-child(2) {
-  font-size: small;
-  font-weight: bold;
+.review p {
+  line-height: 15px;
+  font-size: smaller;
 }
-.review :nth-child(2) {
-  padding-top: 1rem;
-  font-size: small;
-  font-weight: bold;
-}
-.review :nth-child(1) {
-  line-height: 20px;
+.all_reviews{
+  font-size: medium;
+  font-weight: 600;
+  margin-top: 1rem;
 }
 .products-content {
   display: grid;
@@ -301,7 +310,14 @@ header {
   column-gap: 1rem;
 }
 .review-pic {
+  position: relative;
   width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  object-position: center;
+  object-fit: cover;
 }
 /* news ::content */
 .news h3 {
@@ -428,13 +444,13 @@ header {
   padding: 1rem;
   background-color: #ffffff;
   border-radius: 0.2rem;
-  outline: 1px solid #7b7b7b;
   width: 100%;
-  border: none;
+  border: 1px solid rgb(120, 120, 120);
+  outline-color: rgb(22, 33, 0);
   font-size: 1rem;
 }
 .review-content {
-  padding: 1rem;
+  padding: 1.75rem;
   background-color: var(--text-color-backgroud);
   border-radius: 0.6rem;
   box-shadow: 0px 10px 20px 5px var(--text-color-hover);
@@ -444,7 +460,8 @@ header {
   margin: 0;
   padding: 0;
   font-size: 1rem;
-  outline: none;
+  outline-color: rgb(22, 33, 0);
+  font-size: 1rem;
   font-family: "Poppins", sans-serif;
   resize: none;
   padding: 0.5rem;
@@ -461,29 +478,38 @@ header {
 .review {
   margin-top: 1rem;
 }
+.rating-prod h3{
+  margin-bottom: 1rem;
+
+}
 .star-rate .stars {
   font-size: 2rem;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: start;
+  column-gap: .5rem;
 }
 .stars-review .stars {
   display: flex;
   flex-direction: row;
-  column-gap: 1.2rem;
+  column-gap: 1rem;
 }
 .review-ratings {
   margin-top: 1rem;
 }
 .review-ratings p {
   color: #7b7b7b;
+  font-size: large;
+  font-weight: 500;
 }
-.review-item {
+.review-card{
   background-color: var(--text-color-backgroud);
-  box-shadow: 0px 10px 20px 5px var(--text-color-hover);
-  max-height: 60%;
   border-radius: 0.5rem;
-  overflow: hidden;
+  box-shadow: 0px 10px 20px 5px var(--text-color-hover);
 }
-.prod-review {
+.prod-review{
   padding: 1rem;
+  padding-top: 0;
 }
 .btn-review button {
   padding: 1rem 1.5rem;
@@ -577,6 +603,9 @@ header {
   border-radius: 0.3rem;
 }
 /* rates and reviews */
+.product-review-container{
+padding: 1rem;
+}
 .decription-title h1 {
   margin-bottom: 1rem;
 }
@@ -605,6 +634,11 @@ header {
   background-color: var(--btn-color);
   color: var(--text-color-backgroud);
   margin-top: 7rem;
+  transition: .3s;
+}
+.decription-title button:hover{
+  background-color: #000000;
+  outline: 1px solid var(--btn-color);
 }
 .rate_review {
   background-color: var(--text-color-backgroud);
@@ -692,33 +726,14 @@ header {
 .time-date {
   padding-left: 1rem;
   padding-bottom: 0.5rem;
-  font-size: medium;
+  font-size: small;
   color: #575757;
 }
 .accout-rated {
   font-size: small;
   margin-left: 5px;
 }
-/* error pop up */
-.error{
-    background-color: rgba(255, 166, 11, 0.762);
-    padding: .75rem;
-    margin: 1.5rem 2rem 0 ;
-    border-radius: .25rem;
-    position: relative;
-}
-.error_close{
-    position: absolute;
-    right: .5rem;
-    top: .5rem;
-    transition: .2s;
-}
-.error_close:hover{
-    transform: scale(1.2);
-}
-.error__close{
-    display: none;
-}
+
 /* ACCOUNT LOGIN SHOWS */
 .account-login-navs {
   width: 50px;
@@ -747,6 +762,7 @@ header {
   right: 1rem;
   display: none;
   padding: 0.1rem 0;
+  z-index: 20;
 }
 .profile-link a {
   color: black;
@@ -852,11 +868,7 @@ header {
     padding: 0 4rem;
   }
   .review-item {
-    max-height: 72%;
     order: -1;
-  }
-  .review-pic {
-    width: 100%;
   }
   .account-login{
     width: 100%;
@@ -892,9 +904,6 @@ header {
 @media only screen and (max-width: 885px) {
   .review-container {
     grid-template-columns: 1fr;
-  }
-  .review-item {
-    max-height: 100%;
   }
   .products-content {
     grid-template-columns: 100%;
@@ -1052,24 +1061,83 @@ header {
     flex-direction: column;
   }
 }
+
 /* stars */
 .bxs-star{
-  margin-top: 1rem;
   font-size: 2.4rem;
   color: #afafaf;
   transition: .2s;
 }
+.bxs-star:hover{
+  transform: scale(1.3);
+}
 .stars input{
  display: none;
 }
-
 .stars input:not(:checked) ~ label:hover,
 .stars input:not(:checked) ~ label:hover ~ label
 {
   color: rgb(255, 157, 0);
-  transform: scale(1.3);
 }
-
 .stars input:checked ~ label{
   color: rgb(255, 157, 0);
 } 
+.rate-description{
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  font-size: 13px;
+  position: relative;
+  margin-bottom: .3rem;
+}
+.pord_form{
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  margin: auto;
+}
+#search-results-review{
+  padding: 2px 0px;
+}
+#search-results-review p:hover{
+  background-color: #dcdcdc9e;
+}
+#search-results-review p{
+  padding: .5rem 0;
+  padding-left: 1rem;
+}
+.search-product-review{
+  position: relative;
+}
+.input-result-search{
+  overflow: auto;
+  position: absolute;
+  width: 100%;
+  z-index: 100;
+  background-color: white;
+  max-height: 12rem;
+  box-shadow: 0px 10px 20px 5px var(--text-color-hover);
+  border-radius: 0 0rem .5rem .5rem;
+  margin-top: .375rem;
+}
+/* error pop */
+.error{
+  background-color: rgb(255, 166, 11);
+  padding: .75rem;
+  margin: 1.5rem 2rem 0 ;
+  border-radius: .25rem;
+  width: 330px;
+  position: absolute;
+  top: 0;
+  right: -2rem;
+}
+.error {
+  opacity: 1;
+  transition: opacity 0.5s;
+}
+.error.fade-out {
+  opacity: 0;
+}
+
+
+

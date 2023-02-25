@@ -21,168 +21,37 @@
     <div class="rate">
       <h3>Most rate/review GPU products 🔥</h3>
       <div class="products-content">
+        <% for (var i = 0; i < mostRated.length; i++) { %>
         <div class="products-card">
           <div class="prod-grid">
             <div class="prods-img-hover">
               <img
-                src="/img/slider1.jpeg"
+                src="data:image/png;base64,<%=mostRated[i].productImage%>"
                 alt="productsss"
-                class="pic-products"
-              />
+                class="pic-products"/>
             </div>
             <div class="prods-cards">
-              <h4>Product Name</h4>
+              <div class="description_container">
+              <h4><%= mostRated[i].productName.substring(0, 15)%></h4>
               <div class="product-rating">
-                <p>⭐⭐⭐⭐⭐</p>
-                <p>Rating (1)</p>
+                <p><%= mostRated[i].average.toFixed(1) %></p>
+                <p>Ratings(<%= mostRated[i].ratings %>)</p>
               </div>
               <div class="review">
                 <p>
-                  The RTX 3080 includes Nvidia's latest hardware-accelerated ray
-                  tracing technology, as well as improved AI-based features for
-                  improved image quality and performance.
+                  <%= mostRated[i].productDscrp.substring(0, 200) %>...
                 </p>
-                <p>Reviews (3)</p>
+                <p class="all_reviews" >Reviews(<%= mostRated[i].totalReviews %>)</p>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="products-card">
-          <div class="prod-grid">
-            <div class="prods-img-hover">
-              <img
-                src="/img/slider1.jpeg"
-                alt="productsss"
-                class="pic-products"
-              />
             </div>
-            <div class="prods-cards">
-              <h4>Product Name</h4>
-              <div class="product-rating">
-                <p>⭐⭐⭐⭐⭐</p>
-                <p>Rating (1)</p>
-              </div>
-              <div class="review">
-                <p>
-                  The RTX 3080 includes Nvidia's latest hardware-accelerated ray
-                  tracing technology, as well as improved AI-based features for
-                  improved image quality and performance.
-                </p>
-                <p>Reviews (3)</p>
-              </div>
-            </div>
-          </div>
-        </div>
 
-        <div class="products-card">
-          <div class="prod-grid">
-            <div class="prods-img-hover">
-              <img
-                src="/img/slider1.jpeg"
-                alt="productsss"
-                class="pic-products"
-              />
-            </div>
-            <div class="prods-cards">
-              <h4>Product Name</h4>
-              <div class="product-rating">
-                <p>⭐⭐⭐⭐⭐</p>
-                <p>Rating (1)</p>
-              </div>
-              <div class="review">
-                <p>
-                  The RTX 3080 includes Nvidia's latest hardware-accelerated ray
-                  tracing technology, as well as improved AI-based features for
-                  improved image quality and performance.
-                </p>
-                <p>Reviews (3)</p>
-              </div>
-            </div>
           </div>
         </div>
-
-        <div class="products-card">
-          <div class="prod-grid">
-            <div class="prods-img-hover">
-              <img
-                src="/img/slider1.jpeg"
-                alt="productsss"
-                class="pic-products"
-              />
-            </div>
-            <div class="prods-cards">
-              <h4>Product Name</h4>
-              <div class="product-rating">
-                <p>⭐⭐⭐⭐⭐</p>
-                <p>Rating (1)</p>
-              </div>
-              <div class="review">
-                <p>
-                  The RTX 3080 includes Nvidia's latest hardware-accelerated ray
-                  tracing technology, as well as improved AI-based features for
-                  improved image quality and performance.
-                </p>
-                <p>Reviews (3)</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="products-card">
-          <div class="prod-grid">
-            <div class="prods-img-hover">
-              <img
-                src="/img/slider1.jpeg"
-                alt="productsss"
-                class="pic-products"
-              />
-            </div>
-            <div class="prods-cards">
-              <h4>Product Name</h4>
-              <div class="product-rating">
-                <p>⭐⭐⭐⭐⭐</p>
-                <p>Rating (1)</p>
-              </div>
-              <div class="review">
-                <p>
-                  The RTX 3080 includes Nvidia's latest hardware-accelerated ray
-                  tracing technology, as well as improved AI-based features for
-                  improved image quality and performance.
-                </p>
-                <p>Reviews (3)</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="products-card">
-          <div class="prod-grid">
-            <div class="prods-img-hover">
-              <img
-                src="/img/slider1.jpeg"
-                alt="productsss"
-                class="pic-products"
-              />
-            </div>
-            <div class="prods-cards">
-              <h4>Product Name</h4>
-              <div class="product-rating">
-                <p>⭐⭐⭐⭐⭐</p>
-                <p>Rating (1)</p>
-              </div>
-              <div class="review">
-                <p>
-                  The RTX 3080 includes Nvidia's latest hardware-accelerated ray
-                  tracing technology, as well as improved AI-based features for
-                  improved image quality and performance.
-                </p>
-                <p>Reviews (3)</p>
-              </div>
-            </div>
-          </div>
-        </div>
+        <% } %>   
       </div>
-    </div>
+</div>
+
     <div class="news">
       <h3>TODAYS NEWS 🐱‍💻</h3>
       <div class="news-grid">

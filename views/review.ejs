@@ -9,61 +9,66 @@
     </div>
     <div class="review-prod">
         <h3>Product</h3>
+      <form action="/review" method="post">
         <div class="search-product-review">
-            <input type="text" placeholder="Search a product to review">
+            <input type="text" placeholder="Search a product to review" id="search-product-review" name="review_prod_name" onclick="sendData(this)" onkeyup="sendData(this)" autocomplete="off" required>
+            <div class="input-result-search"> 
+            <div id="search-results-review">  
+            </div>
+            </div>
         </div>
     </div>
     <div class="rating-prod">
         <h3>Rating</h3>
         <div class="star-rate">
-
+            <p class="rate-description"></p>
             <div class="stars">
-        
-            <input type="radio" id="rate-5" name="rate">
+               
+            <input type="radio" id="rate-5" name="rate" value="5">
             <label for="rate-5" class='bx bxs-star'></label>  
               
-            <input type="radio" id="rate-4" name="rate">
+            <input type="radio" id="rate-4" name="rate" value="4">
             <label for="rate-4" class='bx bxs-star'></label> 
 
-            <input type="radio" id="rate-3" name="rate">
+            <input type="radio" id="rate-3" name="rate" value="3">
             <label for="rate-3" class='bx bxs-star'></label> 
 
-            <input type="radio" id="rate-2" name="rate">
+            <input type="radio" id="rate-2" name="rate" value="2">
             <label for="rate-2" class='bx bxs-star'></label>
 
-            <input type="radio" id="rate-1" name="rate">
+            <input type="radio" id="rate-1" name="rate" value="1">
             <label for="rate-1" class='bx bxs-star'></label>
 
             </div>
-
         </div>  
     </div>
     <div class="review">
         <h3>Review</h3>
-        <textarea name="" id="" cols="30" rows="7" placeholder="Describe your Experience"></textarea>
+        <textarea name="review_area" id="" cols="30" rows="7" placeholder="Describe your Experience"></textarea>
     </div>
 <div class="btn-review">
-    <button>Post my review</button>
+    <button type="submit">Post my review</button>
 </div>
+</form>
 </div>
-
 <div class="review-item">
-    <div class="review-card">
-        <img src="/img/news1.jpg" alt="review-img" class="review-pic">
-        <div class="prod-review">
-            <h1>Product Name</h1>
-            <div class="stars-review">
-                <div class="stars">
-                    <p>⭐⭐⭐⭐⭐</p>
-                    <p>3.6</p>
-                </div>  
-            </div>
-            <div class="review-ratings">
-                <p>5 Ratings</p>
-                <p>2 Review</p>
+        <div class="review-card">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif?20151024034921" alt="review-img" class="review-pic">
+            <div class="prod-review">
+                <div class="product-review-container">
+                <h1 class="text_Name"></h1>
+                <div class="stars-review">
+                    <div class="stars">
+                        <p class="arverage"></p>
+                    </div>  
+                </div>
+                <div class="review-ratings">
+                    <p class="ratings"></p>
+                    <p class="reviews"></p>
+                </div>
+                </div>
             </div>
         </div>
-    </div>
 </div>
 </div>
 </main>
