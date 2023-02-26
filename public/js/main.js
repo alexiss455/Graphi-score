@@ -42,9 +42,9 @@ function sendData(e) {
               const sums = sum.reduce((acc, curr) => acc + curr, 0);
               const average = sums / sum.length;
               if (isNaN(average)) {
-                avrg.innerHTML = "⭐0";
+                avrg.innerHTML = "0";
               } else {
-                avrg.innerHTML = "⭐" + average.toFixed(1);
+                avrg.innerHTML = "" + average.toFixed(1);
               }
             });
           fetch(`/usersWhoReviewed?prodReview=${item.productName}`)

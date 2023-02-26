@@ -2,55 +2,63 @@
 <main>
 <div class="containers">
    <div class="prod-ratings-description">
+    <div class="product_image_container">
         <div class="prod-img">
-            <img src="/img/sllide3.jpg" alt="prod-rate-img" class="prod-img-size">
+            <img src="data:image/png;base64,<%= productPrev[0].productImage %>" alt="prod-rate-img" class="prod-img-size">
         </div>
+    </div>
+
     <div class="decription-title">
-        <h1>Product Name</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam. </p>
+        <h1><%= productPrev[0].productName %></h1>
+        <p><%= productPrev[0].productDscrp %></p>
         <button>Give your best rate</button>
     </div>
+
    </div>
 <div class="rate_review">
    <div class="rate__rev">
     <div>
-        <span class="rating_rev">8</span>
+        <span class="rating_rev"><%= productPrev[0].ratings %></span>
         <span>people have rated this GraphiScore</span>
     </div>
     <div>
-        <span class="rating_rev">5</span>
+        <span class="rating_rev"><%= productPrev[0].totalReviews %></span>
         <span>people have review this GraphiScore</span>
     </div>
   </div>
     <div class="rating-average">
         <span class="average-stars">⭐⭐⭐⭐⭐</span>
        <div>
-        <span class="average-value">3.9</span>
+        <span class="average-value"><%= productPrev[0].average %></span>
         <p>Average rating</p>
        </div>
     </div>
 </div>
-<h1 class="rates-comment">Ratings & Reviews</h1>
-    <div class="rates_reviews">
 
+<h1 class="rates-comment">Ratings & Reviews</h1>
+<% productPrev[0].reviews.forEach(review => { %>
+    <div class="rates_reviews">
       <div class="profile-size">
         <div class="profile-circle">
-            <img src="/img/slider2.jpeg" alt="we" class="profile">
+            <img src="/img/My_project1.png" alt="profile_pic" class="profile">
         </div>
      <div class="profile-name">
-        <h3>Alexiess</h3>
+        <h3><%= review.displayName %></h3>
         <span>⭐⭐⭐⭐⭐</span>
-        <span class="accout-rated">3</span>
+        <span class="accout-rated"><%= review.rate %></span>
     </div>
     </div>
-
     <div class="review-comment">
-        <span>wow this 4090 is so expensive i can't afford to buy this, but i hope soon i can get this one</span>
+        <span><%= review.review %></span>
     </div>
         <div class="time-date">
-            <span>03/21/2300, 2:30pm</span>
+            <span><%= review.date %></span>
         </div>
     </div>
+    <% }) %>
+
 </div>
 </main>
+
+
 <%- include('partials/footer'); -%>

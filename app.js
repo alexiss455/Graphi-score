@@ -77,7 +77,6 @@ app.use(function (req, res, next) {
   }
   next();
 });
-
 app.get("/login", function (req, res) {
   if (req.isAuthenticated()) {
     res.redirect("/");
@@ -92,14 +91,11 @@ app.get("/register", function (req, res) {
     res.render("register", { error: null });
   }
 });
-app.get('/product-view', (req, res) => {
-    res.render("product-view")
-});
 app.get("/review", (req, res) => {
   if (req.isAuthenticated()) {
-    res.render("review", { error: null });
+    res.render("review");
   } else {
-    res.render("login", { msg: "login first before you review" });
+    res.render("login");
   }
 });
 
@@ -168,8 +164,6 @@ app.post("/search", async (req, res) => {
   let save = await Product.find({
     productName: { $regex: new RegExp("^" + payload + ".*", "i") },
   }).exec();
-
-
   // Convert the productImage to a Base64-encoded string
   save = save.map((foundProduct) => ({
     ...foundProduct.toObject(),
@@ -182,7 +176,7 @@ app.post("/search", async (req, res) => {
 const review_rate = new mongoose.Schema({
   rating: Number,
   review: String,
-  date: String,
+  date: Date,
   product: productSchema,
   userReview: userSchema,
 });
@@ -225,6 +219,57 @@ app.get("/usersWhoReviewed", (req, res) => {
     }
   );
 });
+
+app.get('/graphiscore/:_id', (req, res) => {
+  let getUrl = req.params._id;
+  ReviewRate.aggregate()
+  .match({ 'product._id': mongoose.Types.ObjectId(getUrl) })
+  .group({
+    _id: "$product._id",
+    count: { $sum: { $cond: [{ $ne: ["$review", ""] }, 1, 0] } },
+    average: { $avg: "$rating" },
+    users: { $addToSet: "$userReview._id" },
+    reviews: {
+
+      $push: {
+        displayName: "$userReview.displayName",
+        rate: "$rating",
+        review: "$review",
+        date: "$date"
+      }
+    }
+
+  })
+  .lookup({
+    from: "products",
+    localField: "_id",
+    foreignField: "_id",
+    as: "product"
+  })
+  .unwind("$product")
+  .project({
+    _id: "$product._id",
+    productName: "$product.productName",
+    productDscrp: "$product.description",
+    productImage: "$product.productImage",
+    average: 1,
+    totalReviews: { $sum: "$count" },
+    ratings: { $size: "$users" },
+    reviews: 1
+  })
+  .exec((err, productPrev) => {
+
+    if (err) {
+      console.error(err);
+    } else {
+      if (productPrev[0].productImage) {
+        productPrev[0].productImage = productPrev[0].productImage.toString('base64');
+      }
+      res.render("product-view", { productPrev: productPrev });
+    }
+  });
+});
+
 
 app.get("/", function(req, res) {
   ReviewRate.aggregate()
@@ -287,7 +332,7 @@ app.post("/review", (req, res) => {
             } else if (existingReview) {
               existingReview.rating = rate;
               existingReview.review = review_area;
-              existingReview.date = new Date();
+              existingReview.date = Date.now();
               existingReview.save((err) => {
                 if (err) {
                   console.log(err);
@@ -319,6 +364,9 @@ app.post("/review", (req, res) => {
     });
   }
 });
+
+
 app.listen(3000 || process.env.PORT, function () {
   console.log("Server started on port 3000");
 });
+
