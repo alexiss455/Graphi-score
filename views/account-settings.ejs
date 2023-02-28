@@ -1,0 +1,32 @@
+<%- include('partials/header'); -%>
+
+
+<main>
+    <div class="containers account_container">
+        <div class="accout_settings">
+            <div class="accont">
+                <i class='bx bxs-user-account user-account'></i>
+                <h1>Account Settings</h1>
+            </div>
+            <h3 class="accont_profile">Profile Picture</h3>
+ 
+            <div class="accout_img">
+                <div class="accont-img-upload">
+                    <img src="/img/slider2.jpeg" alt="" class="">
+                </div>
+                <input type="file" id="file" accept="img/*">
+                <label for="file" class="choose_file"><i class='bx bxs-image-add'></i>Choose Photo</label>
+            </div>
+
+            <div class="account_display">
+                <h3>Display Name</h3>
+                <input type="text" name="" id="" value="Yatoro">
+                <h3>Bio</h3>
+                <textarea name="" id="">Nice to meet you here on Graphiscore! I'm Yatoro.</textarea>
+                <button type="submit">Update profile</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<%- include('partials/footer'); -%>

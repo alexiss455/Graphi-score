@@ -13,6 +13,12 @@
   --text-color-hover: rgba(223, 223, 223, 0.836);
   --btn-color: rgb(17, 85, 0);
 }
+img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
 body {
   font-family: "Poppins", sans-serif;
 }
@@ -497,7 +503,7 @@ header {
   color: rgb(0, 0, 0);
 }
 .search-product-review input::placeholder {
-  color: #7b7b7b;
+  color: #c2c2c2;
 }
 .rating-prod,
 .review {
@@ -780,6 +786,7 @@ padding: 1rem;
 }
 .review-comment {
   padding: 1rem 1rem 3rem;
+  overflow: auto;
 }
 .time-date {
   padding-left: 1rem;
@@ -888,6 +895,7 @@ padding: 1rem;
     height: 45vh;
     border-radius: .5rem;
     outline: solid 1px var(--btn-color);
+    left: 0;
   }
   .nav-link {
     display: flex;
@@ -975,6 +983,15 @@ padding: 1rem;
 }
 
 @media only screen and (max-width: 885px) {
+  .profile_settings{
+    width: 100%;
+    max-width: 100%;
+  }
+    /* profile_activity */
+  .profile_activty{
+    display: flex;
+    flex-direction: column;
+  }
   .review-container,
   .rate_review {
     grid-template-columns: 1fr;
@@ -1003,9 +1020,30 @@ padding: 1rem;
   .graphiscore-search {
     padding: 1rem;
   }
+  .accout_settings{
+    width: 100%;
+    max-width: 100%;
+  }
 }
 
 @media only screen and (max-width: 530px) { 
+.accont{
+  font-size: small;
+}
+.accont_profile{
+  text-align: center;
+}
+  .choose_file{
+    bottom: 0;
+   margin-bottom: -3.5rem;
+  }
+  .accout_img{
+    display: flex;
+    justify-content: center;
+  }
+  .profile_activty{
+    width: 100%;
+  }
   .product_image_container{
     margin: 0;
   }
@@ -1116,13 +1154,14 @@ padding: 1rem;
   .rates-comment{
     margin-bottom: 2rem;
   }
+
 }
 @media only screen and (max-width: 410px) {
 .rate h3{
   padding: 0 1rem;
 }
   .containers {
-    margin: 0;
+    margin: 0 .4rem;
     padding: 0;
   }
   .container-login {
@@ -1223,4 +1262,213 @@ padding: 1rem;
 }
 .error.fade-out {
   opacity: 0;
+}
+
+/* ----------------profile_settings---------------- */
+.profile_settings{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  box-shadow: 0px 0px 14px 2px rgba(0,0,0,0.37);
+  -webkit-box-shadow: 0px 0px 14px 2px rgba(0,0,0,0.37);
+  -moz-box-shadow: 0px 0px 14px 2px rgba(0,0,0,0.37);
+  width: 700px;
+  padding: 1rem 1rem 2rem;
+  border-radius: .25rem;
+  margin: auto;
+  margin-top: 2rem;
+}
+.profile_settings_img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.profile_settings_picture{
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  width: 200px;
+  height: 200px;
+  margin: auto;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.profile_settings_name{
+  display: flex;
+  justify-content: center;
+  font-size: larger;
+  padding: 1rem;
+  padding-top: .25rem;
+}
+.profile_settings_link{
+  display: flex;
+  flex-direction: row;
+  column-gap: 1rem;
+  margin-bottom: 2rem;
+}
+.profile_settings_link a{
+  padding: .5rem 1rem;
+  background-color: #000000;
+  color: white;
+  outline: 1px solid green;
+  border-radius: .25rem;
+  display: flex;
+  align-items: center;
+  column-gap: .5rem;
+}
+.profile_settings_bio{
+  padding: 1rem;
+  border-radius: .25rem;
+  box-shadow: 0px 0px 9px -4px rgba(255, 255, 255, 0.75);
+  -webkit-box-shadow: 0px 0px 9px -4px rgba(150, 150, 150, 0.75);
+  -moz-box-shadow: 0px 0px 9px -4px rgba(0,0,0,0.75);
+}
+.profile_settings_revrate{
+  width: 250px;
+  padding:  1.5rem 0rem 2rem;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  justify-content: space-between;
+  line-height: 1.75rem;
+}
+.Activty{
+  padding: 2rem;
+  margin-bottom: 4rem;
+}
+.profile_activty{
+  display: flex;
+  box-shadow: 0px 0px 14px 2px rgba(0,0,0,0.37);
+  -webkit-box-shadow: 0px 0px 14px 2px rgba(0,0,0,0.37);
+  -moz-box-shadow: 0px 0px 14px 2px rgba(0,0,0,0.37); 
+  border-radius: 1rem;
+  overflow: hidden;
+}
+.profile_activty_name{
+  display: flex;
+  justify-content: space-between;
+  column-gap: 1rem;
+}
+.profile_activty_description{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+  overflow: hidden;
+  width: 100%;
+}
+.profile_activty_img{
+  background-color: #000000;
+}
+.activty_img{
+  transition: .4s;  
+}
+.activty_img:hover{
+  transform: scale(.85);
+}
+.activty_description{
+  margin-top: .5rem;
+  font-size: .85rem;
+}
+.activty_datetime{
+ font-size: .75rem;
+}
+.profile_activity_average{
+  display: flex;
+  align-items: center;
+}
+.profile_activty_name h2{
+  font-size: 1.2rem;
+}
+.profile_icons{
+  font-size: 1.25rem;
+}
+
+/* account settings */
+.accout_settings{
+  box-shadow: 0px 0px 14px 2px rgba(0,0,0,0.37);
+  -webkit-box-shadow: 0px 0px 14px 2px rgba(0,0,0,0.37);
+  -moz-box-shadow: 0px 0px 14px 2px rgba(0,0,0,0.37);
+  padding: 1.5rem; 
+  border-radius: .25rem;
+  width: 450px;
+  margin: auto;
+  margin-top: 2rem;
+}
+.accont{
+  display: flex;
+  align-items: center;
+  column-gap: 1rem;
+}
+.user-account{
+  font-size: 2.55rem;
+}
+.accont_profile{
+  margin-top: 1.5rem;
+}
+.accont-img-upload{
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-top: 1rem;
+}
+.accout_img{
+  position: relative;
+}
+.accout_img input{
+  display: none;
+}
+.choose_file{
+  padding: .5rem 1rem;
+  background-color: #000000;
+  outline: 1px rgb(0, 40, 0) solid;
+  color: white;
+  border-radius: .25rem;
+  display: flex;
+  align-items: center;
+  column-gap: 1rem;
+  position: absolute;
+  margin-top: .75rem;
+  transition: .3s;
+}
+.choose_file:hover{
+  background-color:rgb(0, 40, 0);
+
+}
+.account_display{
+margin-top: 5rem;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: start;
+row-gap: .4rem;
+}
+.account_display input{
+  margin-top: .25rem;
+  padding: .5rem .55rem;
+}
+.account_display textarea{
+  resize: none;
+  font-size: 1rem;
+  padding: .5rem;
+  padding-top: .35rem;
+  width: 100%;
+  height: 150px;
+}
+.account_display button{
+  border: none;
+  background-color: black;
+  color: white;
+  padding: .5rem 1.35rem;
+  border-radius: .25rem;
+  font-size: .85rem;
+  outline: 1px solid rgb(0, 40, 0);
+  margin-top: 1.75rem;
+  transition: .3s;
+}
+.account_display button:hover{
+  background-color: rgb(0, 40, 0);
 }

@@ -11,7 +11,13 @@
         <h3>Product</h3>
       <form action="/review" method="post">
         <div class="search-product-review">
-            <input type="text" placeholder="Search a product to review" id="search-product-review" name="review_prod_name" onclick="sendData(this)" onkeyup="sendData(this)" autocomplete="off" required>
+
+            <% if( productPrev[0].productName === ""){ %>
+                <input type="text" value="" placeholder="Searh your favourite GUP'S " id="search-product-review" name="review_prod_name" autocomplete="off" required>
+            <% }else{ %>
+                <input type="text" value="<%= productPrev[0].productName %>" placeholder="<%= productPrev[0].productName %>" id="search-product-review" name="review_prod_name" autocomplete="off" required>
+            <% } %>
+            
             <div class="input-result-search"> 
             <div id="search-results-review">  
             </div>
@@ -24,19 +30,19 @@
             <p class="rate-description"></p>
             <div class="stars">
                
-            <input type="radio" id="rate-5" name="rate" value="5">
+            <input type="radio" id="rate-5" name="rate" value="5" required>
             <label for="rate-5" class='bx bxs-star'></label>  
               
-            <input type="radio" id="rate-4" name="rate" value="4">
+            <input type="radio" id="rate-4" name="rate" value="4" required>
             <label for="rate-4" class='bx bxs-star'></label> 
 
-            <input type="radio" id="rate-3" name="rate" value="3">
+            <input type="radio" id="rate-3" name="rate" value="3" required>
             <label for="rate-3" class='bx bxs-star'></label> 
 
-            <input type="radio" id="rate-2" name="rate" value="2">
+            <input type="radio" id="rate-2" name="rate" value="2" required>
             <label for="rate-2" class='bx bxs-star'></label>
 
-            <input type="radio" id="rate-1" name="rate" value="1">
+            <input type="radio" id="rate-1" name="rate" value="1" required>
             <label for="rate-1" class='bx bxs-star'></label>
 
             </div>
@@ -53,18 +59,47 @@
 </div>
 <div class="review-item">
         <div class="review-card">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif?20151024034921" alt="review-img" class="review-pic">
+            
+            <% if(productPrev[0].productImage === ""){ %>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif?20151024034921" alt="review-img" class="review-pic">
+                <% }else{ %>
+                    <img src="data:image/png;base64,<%= productPrev[0].productImage %>" alt="review-img" class="review-pic">
+            <% } %>
+            
             <div class="prod-review">
                 <div class="product-review-container">
-                <h1 class="text_Name"></h1>
+
+                    <% if( productPrev[0].productName === "" ){ %>
+                        <h1 class="text_Name"><%= productPrev[0].productName %></h1>
+                    <% }else{ %> 
+                        <h1 class="text_Name"></h1>
+                    <% } %>
+
                 <div class="stars-review">
                     <div class="stars">
-                        <p class="arverage"></p>
+
+                        <% if ( productPrev[0].average === "" ) { %>
+                            <p class="arverage"></p>
+                        <% } else { %>
+                            <p class="arverage"><%= productPrev[0].average %></p>
+                        <% } %>
+
                     </div>  
                 </div>
                 <div class="review-ratings">
-                    <p class="ratings"></p>
-                    <p class="reviews"></p>
+
+                    <% if( productPrev[0].ratings === "" ){ %>
+                        <p class="ratings"></p>
+                    <% }else{ %>
+                        <p class="ratings"><%= productPrev[0].ratings %> Ratings</p>
+                    <% } %>
+                    
+                    <% if( productPrev[0].totalReviews === "" ){ %>
+                        <p class="reviews"></p>
+                    <% }else{ %>
+                        <p class="reviews"><%= productPrev[0].totalReviews %> Reviews</p>
+                    <% } %>
+
                 </div>
                 </div>
             </div>

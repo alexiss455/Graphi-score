@@ -51,22 +51,20 @@ try {
     star_5.addEventListener("click", function () {
       text_star_descricption.innerHTML = "I love it 🤩";
     });
-  
     //  view input show
      const viewResult = document.getElementById("search-results-review");
      const inputview = document.getElementById("search-product-review"); 
      inputview.addEventListener("click", async function(){
-      
+      inputview.value = "";
        if(viewResult === "block"){ 
          viewResult.style.display = "none"
        }else{
          viewResult.style.display = "block"  
        }
      });   
-
-     // In this code, the document object is listened for a click event.
-     // If the click event's target is not inside the search input box or the search results box,
-     // then the search results box is hidden using the viewResult.style.display = "none"; line.
+    //  In this code, the document object is listened for a click event.
+    //  If the click event's target is not inside the search input box or the search results box,
+    //  then the search results box is hidden using the viewResult.style.display = "none"; line.
      document.addEventListener("click", function(event) {
        if (!inputview.contains(event.target) &&  !viewResult.contains(event.target)) {
          viewResult.style.display = "none";

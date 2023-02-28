@@ -68,6 +68,8 @@ const items = new Product({
 //  }
 // });
 
+
+
 app.use(function (req, res, next) {
   if (req.isAuthenticated()) {
     res.locals.prof = true;
@@ -77,25 +79,33 @@ app.use(function (req, res, next) {
   }
   next();
 });
+
+app.get('/account-settings', (req, res) => {
+  res.render("account-settings");
+});
+
+app.get("/profile", function(req, res){
+  if (req.isAuthenticated()) {
+    res.render("profile");
+  } else {
+    res.redirect("/");
+  }
+});
+
 app.get("/login", function (req, res) {
+
   if (req.isAuthenticated()) {
     res.redirect("/");
   } else {
     res.render("login");
   }
 });
+
 app.get("/register", function (req, res) {
   if (req.isAuthenticated()) {
     res.redirect("/");
   } else {
     res.render("register", { error: null });
-  }
-});
-app.get("/review", (req, res) => {
-  if (req.isAuthenticated()) {
-    res.render("review");
-  } else {
-    res.render("login");
   }
 });
 
@@ -159,18 +169,25 @@ app.get("/logout", function (req, res) {
   });
 });
 
+
+
 app.post("/search", async (req, res) => {
-  let payload = req.body.payload;
-  let save = await Product.find({
-    productName: { $regex: new RegExp("^" + payload + ".*", "i") },
-  }).exec();
-  // Convert the productImage to a Base64-encoded string
-  save = save.map((foundProduct) => ({
-    ...foundProduct.toObject(),
-    productImage: foundProduct.productImage.toString("base64"),
-  }));
-  res.json({ payload: save });
+  try {
+    const payload = req.body.payload;
+    const products = await Product.find({ productName: { $regex: new RegExp("^" + payload + ".*", "i") } });
+    // Convert the productImage to a Base64-encoded string for each product
+    const productsWithBase64Images = products.map((product) => ({
+      ...product.toObject(),
+      productImage: product.productImage.toString("base64"),
+    }));
+    res.status(200).json({ products: productsWithBase64Images });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 });
+
+
 
 // review and rate collection connection with productSchema and userSchema
 const review_rate = new mongoose.Schema({
@@ -180,6 +197,7 @@ const review_rate = new mongoose.Schema({
   product: productSchema,
   userReview: userSchema,
 });
+
 const ReviewRate = mongoose.model("ReviewRate", review_rate);
 app.get("/usersWhoRated", async (req, res) => {
   const prodReview = req.query.prodReview;
@@ -218,6 +236,76 @@ app.get("/usersWhoReviewed", (req, res) => {
       res.json({ usersWhoReviewed });
     }
   );
+});
+
+app.get("/review", (req, res) => {
+  var productDprev = [{
+    productName:  "",
+    productImage: "",
+    average: "",
+    ratings: "",
+    totalReviews: ""
+  }]
+  if (req.isAuthenticated()) {
+    res.render("review", {productPrev: productDprev});
+  } else {
+    res.render("login");
+  }
+});
+
+app.get("/review/:_id", function(req, res){
+
+  if (req.isAuthenticated()) {
+    let getUrl = req.params._id;
+    ReviewRate.aggregate()
+    .match({ 'product._id': mongoose.Types.ObjectId(getUrl) })
+    .group({
+      _id: "$product._id",
+      count: { $sum: { $cond: [{ $ne: ["$review", ""] }, 1, 0] } },
+      average: { $avg: "$rating" },
+      users: { $addToSet: "$userReview._id" },
+      reviews: {
+  
+        $push: {
+          displayName: "$userReview.displayName",
+          rate: "$rating",
+          review: "$review",
+          date: "$date"
+        }
+      }
+    })
+    .lookup({
+      from: "products",
+      localField: "_id",
+      foreignField: "_id",
+      as: "product"
+    })
+    .unwind("$product")
+    .project({
+      _id: "$product._id",
+      productName: "$product.productName",
+      productDscrp: "$product.description",
+      productImage: "$product.productImage",
+      average: 1,
+      totalReviews: { $sum: "$count" },
+      ratings: { $size: "$users" },
+      reviews: 1
+    })
+    .exec((err, productPrev) => {
+  
+      if (err) {
+        console.error(err);
+      } else {
+        if (productPrev[0].productImage) {
+          productPrev[0].productImage = productPrev[0].productImage.toString('base64');
+        }
+        res.render("review", { productPrev: productPrev });
+      }
+    });
+  } else {
+    res.render("login");
+  }
+
 });
 
 app.get('/graphiscore/:_id', (req, res) => {
@@ -338,7 +426,7 @@ app.post("/review", (req, res) => {
                   console.log(err);
                 } else {
                   console.log("Review updated");
-                  res.render("review");
+                  res.redirect("/graphiscore/"+foundProduct._id);
                 }
               });
             } else {
@@ -354,7 +442,7 @@ app.post("/review", (req, res) => {
                   console.log(err);
                 } else {
                   console.log("Review saved");
-                  res.render("review");
+                  res.redirect("/graphiscore/"+foundProduct._id);
                 }
               });
             }

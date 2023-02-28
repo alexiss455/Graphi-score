@@ -11,11 +11,13 @@
     <div class="decription-title">
         <h1><%= productPrev[0].productName %></h1>
         <p><%= productPrev[0].productDscrp %></p>
-        <button>Give your best rate</button>
+
+        <a href="/review/<%= productPrev[0]._id %>"><button type="submit">Give your best</button></a>
+        
     </div>
 
    </div>
-<div class="rate_review">
+<div class="rate_review">   
    <div class="rate__rev">
     <div>
         <span class="rating_rev"><%= productPrev[0].ratings %></span>
