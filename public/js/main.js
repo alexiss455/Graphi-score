@@ -5,7 +5,7 @@ const reviews = document.querySelector(".reviews");
 const avrg = document.querySelector(".arverage");
 const viewResult = document.getElementById("search-results-review");
 const inputView = document.getElementById("search-product-review");
-
+const avg = document.querySelector(".review_average_star");
 const updateSearchResults = async (query) => {
   try {
     const response = await fetch("/search", {
@@ -32,19 +32,19 @@ const updateSearchResults = async (query) => {
         inputView.value = product.productName;
         viewResult.style.display = "none";
 
-        const usersWhoRated = await fetch(
-          `/usersWhoRated?prodReview=${product.productName}`
-        );
+        const usersWhoRated = await fetch( `/usersWhoRated?prodReview=${product.productName}` );
         const ratingData = await usersWhoRated.json();
         const sum = ratingData.sumOfRatings;
         const sums = sum.reduce((acc, curr) => acc + curr, 0);
         const average = sums / sum.length;
         rating.innerHTML = `${ratingData.numberOfUsers} Ratings`;
         avrg.innerHTML = isNaN(average) ? "0" : average.toFixed(1);
+        avg.style.display = "block";  
+        document.querySelector(".rating-upper").style.width =
+        (parseFloat(avrg.textContent) === 5? 100:
+         parseFloat(avrg.textContent) * 20) +"%"; 
 
-        const usersWhoReviewed = await fetch(
-          `/usersWhoReviewed?prodReview=${product.productName}`
-        );
+        const usersWhoReviewed = await fetch( `/usersWhoReviewed?prodReview=${product.productName}` );
         const reviewData = await usersWhoReviewed.json();
         reviews.innerHTML = `${reviewData.usersWhoReviewed.length} Reviews`;
       });
@@ -91,7 +91,15 @@ document.querySelectorAll("#comment_rate").forEach((productRatings) => {
       (parseFloat(productRatings.querySelector("#accout-rated").textContent) === 5? 100: 
       parseFloat(productRatings.querySelector("#accout-rated").textContent) * 20) + "%";
   });
+  
+} catch (error) {
+}
+try {
+// display star on ejs file
+document.querySelector(".rating-upper").style.width =
+(parseFloat(document.getElementById("average").textContent) === 5? 100:
+ parseFloat(document.getElementById("average").textContent) * 20) +"%";
 
 } catch (error) {
   
-}
+}  

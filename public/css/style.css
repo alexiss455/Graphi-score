@@ -522,8 +522,8 @@ header {
 }
 .stars-review .stars {
   display: flex;
-  flex-direction: row;
-  column-gap: 1rem;
+  column-gap: .65rem;
+  align-items: center;
 }
 .review-ratings {
   margin-top: 1rem;
@@ -672,7 +672,7 @@ padding: 1rem;
   border-radius: .5rem;
 }
 .product_image_container{
-  width: 70%;
+  width: 50%;
 }
 .decription-title {
   padding: 2rem;
@@ -1395,7 +1395,6 @@ padding: 1rem;
   font-size: 1.25rem;
 }
 
-
 /* account settings */
 .accout_settings{
   box-shadow: 0px 0px 14px 2px rgba(0,0,0,0.37);
@@ -1446,7 +1445,6 @@ padding: 1rem;
 }
 .choose_file:hover{
   background-color:rgb(0, 40, 0);
-
 }
 .account_display{
 margin-top: 5rem;
@@ -1509,4 +1507,7 @@ row-gap: .4rem;
 /* STARS AVERAGE SIZE FOR graphiscore/_ID */
 .rate_productAvg{
   font-size: 3.65rem;
+}
+.review_average_star{
+  display: none;
 }

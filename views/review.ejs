@@ -79,12 +79,48 @@
                     <div class="stars">
 
                         <% if ( productPrev[0].average === "" ) { %>
+                            <div class="review_average_star">
+                                <div class="rating">
+                                    <div class="rating-upper">
+                                      <span>★</span>
+                                      <span>★</span>
+                                      <span>★</span>
+                                      <span>★</span>
+                                      <span>★</span>
+                                    </div>
+                                    <div class="rating-lower">
+                                      <span>★</span>
+                                      <span>★</span>
+                                      <span>★</span>
+                                      <span>★</span>
+                                      <span>★</span>
+                                    </div>
+                                  </div>
+                            </div>
                             <p class="arverage"></p>
                         <% } else { %>
-                            <p class="arverage"><%= productPrev[0].average.toFixed(1) %></p>
+                            <div class="review_average_stars">
+                                <div class="rating">
+                                    <div class="rating-upper">
+                                      <span>★</span>
+                                      <span>★</span>
+                                      <span>★</span>
+                                      <span>★</span>
+                                      <span>★</span>
+                                    </div>
+                                    <div class="rating-lower">
+                                      <span>★</span>
+                                      <span>★</span>
+                                      <span>★</span>
+                                      <span>★</span>
+                                      <span>★</span>
+                                    </div>
+                                  </div>
+                            </div>                            
+                            <p class="arverage" id ="average"><%= productPrev[0].average.toFixed(1) %></p>
                         <% } %>
 
-                    </div>  
+                    </div>      
                 </div>
                 <div class="review-ratings">
 
