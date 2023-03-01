@@ -18,55 +18,86 @@
 
 <main>
   <div class="products containers">
-      <div class="rate">
-        <h3>Most rate/review GPU products 🔥</h3>
+    <div class="rate">
+      <h3>Most rate/review GPU products 🔥</h3>
 
-        <div class="products-content">
-          <% for (var i = 0; i < mostRated.length; i++) { %>
-          <a href="/graphiscore/<%= mostRated[i]._id %>" class="products_link">
+      <div class="products-content">
+        <% for (var i = 0; i < mostRated.length; i++) { %>
+        <a href="/graphiscore/<%= mostRated[i]._id %>" class="products_link">
           <div class="products-card">
             <div class="prod-grid">
               <div class="prods-img-hover">
                 <img
                   src="data:image/png;base64,<%=mostRated[i].productImage%>"
                   alt="productsss"
-                  class="pic-products"/>
+                  class="pic-products"
+                />
               </div>
 
               <div class="prods-cards">
                 <div class="description_container">
                   <h4><%= mostRated[i].productName.substring(0, 15)%></h4>
+
                   <div class="product-rating">
-                    <p><%= mostRated[i].average.toFixed(1) %></p>
+                    <div class="rating">
+                      <div class="rating-upper">
+                        <span>★</span>
+                        <span>★</span>
+                        <span>★</span>
+                        <span>★</span>
+                        <span>★</span>
+                      </div>
+                      <div class="rating-lower">
+                        <span>★</span>
+                        <span>★</span>
+                        <span>★</span>
+                        <span>★</span>
+                        <span>★</span>
+                      </div>
+                    </div>
+
+                    <p id="p"><%= mostRated[i].average.toFixed(1) %></p>
                     <p>(<%= mostRated[i].ratings %>)Ratings</p>
                   </div>
+
                   <div class="review">
                     <p><%= mostRated[i].productDscrp.substring(0, 200) %>...</p>
-                    <p class="all_reviews" >(<%= mostRated[i].totalReviews %>)Reviews</p>
+                    <p class="all_reviews">
+                      (<%= mostRated[i].totalReviews %>)Reviews
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          </a>
-          <% } %>   
-        </div>
+        </a>
+        <% } %>
+      </div>
     </div>
-      <div class="news">
-        <h3>TODAYS NEWS 🐱‍💻</h3>
-        <div class="news-grid">
-          <div class="news-content">
-            <a href="https://www.extremetech.com/gaming/341860-discrete-gpu-sales-plummet-to-historic-lows" target="_blank"> <img src="/img/news1.jpg" alt="" class="news-pic" /></a>
-          </div>
-          <div class="news_descrp">
-            <h4>Discrete GPU Sales Plummet to Historic Lows</h4>
-            <p class="subP">
-              If you’ve been looking at the GPU market recently and thinking,
-              “nope,” you’re not alone...<a href="https://www.extremetech.com/gaming/341860-discrete-gpu-sales-plummet-to-historic-lows" target="_blank">See more</a>
-            </p>
-          </div>
+    <div class="news">
+      <h3>TODAYS NEWS 🐱‍💻</h3>
+      <div class="news-grid">
+        <div class="news-content">
+          <a
+            href="https://www.extremetech.com/gaming/341860-discrete-gpu-sales-plummet-to-historic-lows"
+            target="_blank"
+          >
+            <img src="/img/news1.jpg" alt="" class="news-pic"
+          /></a>
+        </div>
+        <div class="news_descrp">
+          <h4>Discrete GPU Sales Plummet to Historic Lows</h4>
+          <p class="subP">
+            If you’ve been looking at the GPU market recently and thinking,
+            “nope,” you’re not alone...<a
+              href="https://www.extremetech.com/gaming/341860-discrete-gpu-sales-plummet-to-historic-lows"
+              target="_blank"
+              >See more</a
+            >
+          </p>
         </div>
       </div>
+    </div>
   </div>
 </main>
 <%- include('partials/footer'); -%>

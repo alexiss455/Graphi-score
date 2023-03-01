@@ -1,66 +1,104 @@
 <%- include('partials/header'); -%>
 <main>
-<div class="containers">
-   <div class="prod-ratings-description">
-    <div class="product_image_container">
+  <div class="containers">
+    <div class="prod-ratings-description">
+      <div class="product_image_container">
         <div class="prod-img">
-            <img src="data:image/png;base64,<%= productPrev[0].productImage %>" alt="prod-rate-img" class="prod-img-size">
+          <img
+            src="data:image/png;base64,<%= productPrev[0].productImage %>"
+            alt="prod-rate-img"
+            class="prod-img-size"
+          />
         </div>
-    </div>
+      </div>
 
-    <div class="decription-title">
+      <div class="decription-title">
         <h1><%= productPrev[0].productName %></h1>
         <p><%= productPrev[0].productDscrp %></p>
 
-        <a href="/review/<%= productPrev[0]._id %>"><button type="submit">Give your best</button></a>
-        
+        <a href="/review/<%= productPrev[0]._id %>"
+          ><button type="submit">Give your best</button></a
+        >
+      </div>
+    </div>
+    <div class="rate_review">
+      <div class="rate__rev">
+        <div>
+          <span class="rating_rev"><%= productPrev[0].ratings %></span>
+          <span>people have rated this GraphiScore</span>
+        </div>
+        <div>
+          <span class="rating_rev"><%= productPrev[0].totalReviews %></span>
+          <span>people have review this GraphiScore</span>
+        </div>
+      </div>
+      <div class="rating-average">
+        <div class="rating rate_productAvg">
+          <div class="rating-upper">
+            <span>★</span>
+            <span>★</span>
+            <span>★</span>
+            <span>★</span>
+            <span>★</span>
+          </div>
+          <div class="rating-lower">
+            <span>★</span>
+            <span>★</span>
+            <span>★</span>
+            <span>★</span>
+            <span>★</span>
+          </div>
+        </div>
+
+        <div class="product-view-average">
+          <span class="average-value"
+            ><%= productPrev[0].average.toFixed(1) %></span
+          >
+          <p>Average rating</p>
+        </div>
+      </div>
     </div>
 
-   </div>
-<div class="rate_review">   
-   <div class="rate__rev">
-    <div>
-        <span class="rating_rev"><%= productPrev[0].ratings %></span>
-        <span>people have rated this GraphiScore</span>
-    </div>
-    <div>
-        <span class="rating_rev"><%= productPrev[0].totalReviews %></span>
-        <span>people have review this GraphiScore</span>
-    </div>
-  </div>
-    <div class="rating-average">
-        <span class="average-stars">⭐⭐⭐⭐⭐</span>
-       <div>
-        <span class="average-value"><%= productPrev[0].average %></span>
-        <p>Average rating</p>
-       </div>
-    </div>
-</div>
-
-<h1 class="rates-comment">Ratings & Reviews</h1>
-<% productPrev[0].reviews.forEach(review => { %>
+    <h1 class="rates-comment">Ratings & Reviews</h1>
+    <% productPrev[0].reviews.forEach(review => { %>
     <div class="rates_reviews">
       <div class="profile-size">
         <div class="profile-circle">
-            <img src="/img/My_project1.png" alt="profile_pic" class="profile">
+          <img src="/img/My_project1.png" alt="profile_pic" class="profile" />
         </div>
-     <div class="profile-name">
-        <h3><%= review.displayName %></h3>
-        <span>⭐⭐⭐⭐⭐</span>
-        <span class="accout-rated"><%= review.rate %></span>
-    </div>
-    </div>
-    <div class="review-comment">
+        <div class="profile-name">
+          <h3><%= review.displayName %></h3>
+
+          <div id="comment_rate">
+            <div class="rating">
+              <div class="rating-upper">
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+              </div>
+              <div class="rating-lower">
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+              </div>
+            </div>
+            <p id="accout-rated"><%= review.rate %></p>
+          </div>
+        </div>
+      </div>
+      <div class="review-comment">
         <span><%= review.review %></span>
-    </div>
-        <div class="time-date">
-            <span><%= review.date %></span>
-        </div>
+      </div>
+      <div class="time-date">
+        <span><%= review.date %></span>
+      </div>
     </div>
     <% }) %>
-
-</div>
+  </div>
 </main>
-
 
 <%- include('partials/footer'); -%>

@@ -81,7 +81,7 @@
                         <% if ( productPrev[0].average === "" ) { %>
                             <p class="arverage"></p>
                         <% } else { %>
-                            <p class="arverage"><%= productPrev[0].average %></p>
+                            <p class="arverage"><%= productPrev[0].average.toFixed(1) %></p>
                         <% } %>
 
                     </div>  

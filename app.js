@@ -81,7 +81,11 @@ app.use(function (req, res, next) {
 });
 
 app.get('/account-settings', (req, res) => {
-  res.render("account-settings");
+  if (req.isAuthenticated()) {
+    res.render("account-settings");
+  } else {
+    res.redirect("/");
+  }
 });
 
 app.get("/profile", function(req, res){

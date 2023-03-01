@@ -6,7 +6,6 @@ const avrg = document.querySelector(".arverage");
 const viewResult = document.getElementById("search-results-review");
 const inputView = document.getElementById("search-product-review");
 
-
 const updateSearchResults = async (query) => {
   try {
     const response = await fetch("/search", {
@@ -25,12 +24,17 @@ const updateSearchResults = async (query) => {
       p.addEventListener("click", async () => {
         h1Text.innerHTML = product.productName;
         reviewPic.setAttribute("alt", product.productName);
-        reviewPic.setAttribute("src", `data:image/png;base64,${product.productImage}`);
+        reviewPic.setAttribute(
+          "src",
+          `data:image/png;base64,${product.productImage}`
+        );
         inputView.setAttribute("placeholder", product.productName);
         inputView.value = product.productName;
         viewResult.style.display = "none";
 
-        const usersWhoRated = await fetch(`/usersWhoRated?prodReview=${product.productName}`);
+        const usersWhoRated = await fetch(
+          `/usersWhoRated?prodReview=${product.productName}`
+        );
         const ratingData = await usersWhoRated.json();
         const sum = ratingData.sumOfRatings;
         const sums = sum.reduce((acc, curr) => acc + curr, 0);
@@ -38,7 +42,9 @@ const updateSearchResults = async (query) => {
         rating.innerHTML = `${ratingData.numberOfUsers} Ratings`;
         avrg.innerHTML = isNaN(average) ? "0" : average.toFixed(1);
 
-        const usersWhoReviewed = await fetch(`/usersWhoReviewed?prodReview=${product.productName}`);
+        const usersWhoReviewed = await fetch(
+          `/usersWhoReviewed?prodReview=${product.productName}`
+        );
         const reviewData = await usersWhoReviewed.json();
         reviews.innerHTML = `${reviewData.usersWhoReviewed.length} Reviews`;
       });
@@ -49,17 +55,43 @@ const updateSearchResults = async (query) => {
   }
 };
 
+try {
+  inputView.addEventListener("click", async () => {
+    await updateSearchResults("");
+  });
 
-inputView.addEventListener("click", async () => {
-  await updateSearchResults("");
+  inputView.addEventListener("input", async (event) => {
+    const query = event.target.value.trim();
+    if (query) {
+      viewResult.style.display = "block";
+      await updateSearchResults(query);
+    } else {
+      viewResult.style.display = "none";
+    }
+  });
+} catch (error) {}
+
+try {
+  
+// homecontent star Average
+document.querySelectorAll(".product-rating").forEach((productRating) => {
+  productRating.querySelector(".rating-upper").style.width =
+    (parseFloat(productRating.querySelector("#p").textContent) === 5? 100: 
+    parseFloat(productRating.querySelector("#p").textContent) * 20) + "%";
 });
 
-inputView.addEventListener("input", async (event) => {
-  const query = event.target.value.trim();
-  if (query) {
-    viewResult.style.display = "block";
-    await updateSearchResults(query);
-  } else {
-    viewResult.style.display = "none";
-  }
-});
+// graphiscore_ID Average
+document.querySelector(".rating-upper").style.width =
+  (parseFloat(document.querySelector(".average-value").textContent) === 5? 100:
+   parseFloat(document.querySelector(".average-value").textContent) * 20) +"%";
+
+// COMMENT STAR AVERAGE
+document.querySelectorAll("#comment_rate").forEach((productRatings) => {
+    productRatings.querySelector(".rating-upper").style.width =
+      (parseFloat(productRatings.querySelector("#accout-rated").textContent) === 5? 100: 
+      parseFloat(productRatings.querySelector("#accout-rated").textContent) * 20) + "%";
+  });
+
+} catch (error) {
+  
+}
