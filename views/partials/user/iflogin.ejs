@@ -1,7 +1,12 @@
 <div class="account-login">
     <div class="profile-size">
         <div class="profile-circle account-login-navs">
-            <img src="/img/slider2.jpeg" alt="we" class="profile">
+            <% if(profile){ %>
+                <img src="<%= profile%>" alt="welcome_img" class="profile">
+            <% }else{ %>
+                <img src="/img/My_project1.png" alt="welcome_img" class="profile">
+            <% } %>
+            
         </div>
         </div>
         <div class="profile-name-nav">

@@ -39,29 +39,30 @@
                   <h4><%= mostRated[i].productName.substring(0, 15)%></h4>
 
                   <div class="product-rating">
-                    <div class="rating">
-                      <div class="rating-upper">
-                        <span>★</span>
-                        <span>★</span>
-                        <span>★</span>
-                        <span>★</span>
-                        <span>★</span>
+                    <div class="product__rating">
+                      <div class="rating">
+                        <div class="rating-upper">
+                          <span>★</span>
+                          <span>★</span>
+                          <span>★</span>
+                          <span>★</span>
+                          <span>★</span>
+                        </div>
+                        <div class="rating-lower">
+                          <span>★</span>
+                          <span>★</span>
+                          <span>★</span>
+                          <span>★</span>
+                          <span>★</span>
+                        </div>
                       </div>
-                      <div class="rating-lower">
-                        <span>★</span>
-                        <span>★</span>
-                        <span>★</span>
-                        <span>★</span>
-                        <span>★</span>
-                      </div>
+                      <p id="p"><%= mostRated[i].average %></p>
                     </div>
-
-                    <p id="p"><%= mostRated[i].average.toFixed(1) %></p>
                     <p>(<%= mostRated[i].ratings %>)Ratings</p>
                   </div>
 
                   <div class="review">
-                    <p><%= mostRated[i].productDscrp.substring(0, 200) %>...</p>
+                    <p><%= mostRated[i].description.substring(0, 200) %>..</p>
                     <p class="all_reviews">
                       (<%= mostRated[i].totalReviews %>)Reviews
                     </p>

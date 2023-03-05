@@ -13,12 +13,13 @@
       </div>
 
       <div class="decription-title">
-        <h1><%= productPrev[0].productName %></h1>
-        <p><%= productPrev[0].productDscrp %></p>
 
-        <a href="/review/<%= productPrev[0]._id %>"
-          ><button type="submit">Give your best</button></a
-        >
+        <h1><%= productPrev[0].productName %></h1>
+        <p><%= productPrev[0].description %></p>
+
+        <a href="/review/<%= productPrev[0]._id %>">
+          <button type="submit">Give your best</button>
+        </a>
       </div>
     </div>
     <div class="rate_review">
@@ -60,36 +61,39 @@
     </div>
 
     <h1 class="rates-comment">Ratings & Reviews</h1>
-    <% productPrev[0].reviews.forEach(review => { %>
-    <div class="rates_reviews">
-      <div class="profile-size">
-        <div class="profile-circle">
-          <img src="/img/My_project1.png" alt="profile_pic" class="profile" />
-        </div>
-        <div class="profile-name">
-          <h3><%= review.displayName %></h3>
+    <% productPrev[0].reviewrates.forEach(review => { %>
 
-          <div id="comment_rate">
-            <div class="rating">
-              <div class="rating-upper">
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
+    <div class="rates_reviews">
+      <a href="/profile/<%= review._id%>">
+        <div class="profile-size">
+          <div class="profile-circle">
+            <img src="/img/My_project1.png" alt="profile_pic" class="profile" />
+          </div>
+          <div class="profile-name">
+            <h3><%= review.displayName %></h3>
+
+            <div id="comment_rate">
+              <div class="rating">
+                <div class="rating-upper">
+                  <span>★</span>
+                  <span>★</span>
+                  <span>★</span>
+                  <span>★</span>
+                  <span>★</span>
+                </div>
+                <div class="rating-lower">
+                  <span>★</span>
+                  <span>★</span>
+                  <span>★</span>
+                  <span>★</span>
+                  <span>★</span>
+                </div>
               </div>
-              <div class="rating-lower">
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-              </div>
+              <p id="accout-rated"><%= review.rate %></p>
             </div>
-            <p id="accout-rated"><%= review.rate %></p>
           </div>
         </div>
-      </div>
+      </a>
       <div class="review-comment">
         <span><%= review.review %></span>
       </div>
@@ -97,6 +101,7 @@
         <span><%= review.date %></span>
       </div>
     </div>
+
     <% }) %>
   </div>
 </main>

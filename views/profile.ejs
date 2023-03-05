@@ -4,50 +4,82 @@
   <div class="containers">
     <div class="profile_settings">
         <div class="profile_settings_picture">
-            <img src="/img/slider2.jpeg" alt="" class="profile_settings_img">
-        </div>
-        <div class="profile_settings_name"><p>User Name</p></div>
 
-        <div class="profile_settings_link">
-        <a href=""><i class='bx bx-edit profile_icons'></i>Edit profile</a>
-        <a href=""><i class='bx bx-share profile_icons'></i>Share profile</a>
+            <% if(currentUser.user.profilePicture){ %>
+                <img src="<%= currentUser.user.profilePicture %>" alt="" class="profile_settings_img">
+            <% }else{ %>
+                <img src="/img/My_project1.png" alt="" class="profile_settings_img">
+           <% } %>
+    
         </div>
-        <p class="profile_settings_bio">Nice to meet you here on GraphiScore! I'm jono.</p>
+        <div class="profile_settings_name"><p><%= currentUser.user.displayName %></p></div>
+        
+        <div class="profile_settings_link">
+
+           <% if(hideButtons === false){ %>
+                <a href="/account-settings"><i class='bx bx-edit profile_icons'></i>Edit profile</a>
+                <a href=""><i class='bx bx-share profile_icons'></i>Share profile</a>
+            <% } %>
+        
+        </div>
+        <p class="profile_settings_bio">
+            <% if (currentUser.user.bio) { %>
+                <%= currentUser.user.bio %>
+            <% } else { %>
+                Welcome to Graphiscore give your best experience  <%= currentUser.user.displayName %>!
+            <% } %>
+        </p>
         <div class="profile_settings_revrate">
             <div>
-                <h1>1</h1>
+                <h1><%= currentUser.reviewCount %></h1>
                 <p>Reviews</p>
             </div>
             <div>
-                <h1>4</h1>
+                <h1><%= currentUser.rateCount %></h1>
                 <p>Ratings</p>
             </div>
         </div>
 
         <h1 class="Activty">Activty</h1>
+        <% currentUser.reviews.forEach(review =>{ %>
 
-        <div class="profile_activty">
+        <a href="/graphiscore/<%= review.product._id%>" class="profile_product_acnchor">
+          <div class="profile_activty">
             <div class="profile_activty_img">
-                <img src="/GraphiscorePicture/GV-N4080EAGLE-16GD.png" alt="" class="activty_img">
+                <img src="data:image/png;base64,<%= review.product.productImage %>" alt="" class="activty_img">
             </div>
             <div class="profile_activty_description">
                 <div>
                     <div class="profile_activty_name">
-                        <h2>Productname</h2>
-                       <div class="profile_activity_average"> 
-                        <span>⭐⭐⭐⭐⭐</span>
-                        <span>3</span>
+                        <h2><%= review.product.productName %></h2>
+                    <div class="profile_activity_average"> 
+                        <div class="rating">
+                            <div class="rating-upper">
+                              <span>★</span>
+                              <span>★</span>
+                              <span>★</span>
+                              <span>★</span>
+                              <span>★</span>
+                            </div>
+                            <div class="rating-lower">
+                              <span>★</span>
+                              <span>★</span>
+                              <span>★</span>
+                              <span>★</span>
+                              <span>★</span>
+                            </div>
                         </div>
+                        <span id="profile_average"><%= review.rating %></span>
+                    </div>
                         
                     </div>
-                    
-                    <p class="activty_description">Really awesome! Great product design too! </p>
                 </div>
-
-                <p class="activty_datetime">1/24/2023, 2:43:47 PM</p>
+                <div><p class="activty_description"><%= review.review %></p></div>
+                <p class="activty_datetime"><%= review.date %></p>
             </div>
         </div>
-        
+        </a>
+         <% }) %>
     </div>
   </div>
 </main>

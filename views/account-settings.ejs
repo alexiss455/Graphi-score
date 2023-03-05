@@ -4,6 +4,7 @@
 <main>
     <div class="containers account_container">
         <div class="accout_settings">
+            <form action="/account-settings" method="post">
             <div class="accont">
                 <i class='bx bxs-user-account user-account'></i>
                 <h1>Account Settings</h1>
@@ -12,19 +13,32 @@
  
             <div class="accout_img">
                 <div class="accont-img-upload">
-                    <img src="/img/slider2.jpeg" alt="" class="">
+                   <% if(currentUser.user.profilePicture){ %>
+                        <img src="<%= currentUser.user.profilePicture %>" alt="" id="preview-image">
+                   <% }else{ %>
+                        <img src="/img/My_project1.png" alt="" id="preview-image">
+                   <% } %>
+                   
                 </div>
-                <input type="file" id="file" accept="img/*">
+                <input type="hidden" class="hide_file" name="upload_image">
+                <input type="file" id="file" accept="img/*" class="file-input">
                 <label for="file" class="choose_file"><i class='bx bxs-image-add'></i>Choose Photo</label>
             </div>
 
             <div class="account_display">
                 <h3>Display Name</h3>
-                <input type="text" name="" id="" value="Yatoro">
+                <input type="text" name="displayName" id="" value="<%= currentUser.user.displayName %>">
                 <h3>Bio</h3>
-                <textarea name="" id="">Nice to meet you here on Graphiscore! I'm Yatoro.</textarea>
+
+                <% if (currentUser.user.bio) { %>
+                    <textarea name="displayBio" id=""><%= currentUser.user.bio %></textarea>
+                <% } else { %>
+                    <textarea name="displayBio" id="">Welcome to Graphiscore give your best experience!  <%= currentUser.user.displayName %></textarea>
+                <% } %>
+                
                 <button type="submit">Update profile</button>
             </div>
+            </form>
         </div>
     </div>
 </main>
