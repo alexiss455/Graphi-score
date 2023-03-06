@@ -67,7 +67,12 @@
       <a href="/profile/<%= review._id%>">
         <div class="profile-size">
           <div class="profile-circle">
-            <img src="/img/My_project1.png" alt="profile_pic" class="profile" />
+            <% if(review.profilePicture){ %>
+              <img src="<%= review.profilePicture %>" alt="profile_pic" class="profile" />
+            <% }else{ %>
+              <img src="/img/My_project1.png" alt="profile_pic" class="profile" />
+            <% } %> 
+           
           </div>
           <div class="profile-name">
             <h3><%= review.displayName %></h3>

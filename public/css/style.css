@@ -1374,7 +1374,7 @@ padding: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 1rem;
+  padding: .75rem;
   overflow-wrap: anywhere;
   width: 100%;
   border-radius: .5rem;

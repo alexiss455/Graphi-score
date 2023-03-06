@@ -15,7 +15,7 @@ const multer = require('multer');
 app.use(express.json());
 app.use(express.static("public"));
 app.set("view engine", "ejs");
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(
   session({
     secret: "Our little secret.",
@@ -28,7 +28,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 // databases
 mongoose.set("strictQuery", false);
-mongoose.connect("mongodb://127.0.0.1:27017/userDB", { useNewUrlParser: true });
+mongoose.connect("mongodb+srv://Alexiess:gagoka45@alexiess.9vhaijd.mongodb.net/Userdb", { useNewUrlParser: true });
 // register_user_collection
 const userSchema = new mongoose.Schema({
   username: String,
@@ -57,21 +57,21 @@ const productSchema = new mongoose.Schema({
 });
 const Product = mongoose.model("Product", productSchema);
 const items = new Product({
-  productName: "VCG408016TFXXPB1",
+  productName: "TUF-RTX4080-O16G-GAMING",
   productImage: fs.readFileSync(
-    "public/GraphiscorePicture/VCG408016TFXXPB1.png"
+    "public/GraphiscorePicture/TUF-RTX4080-O16G-GAMING.png"
   ),
   description:
-    "TUF-RTX4080-O16G-GAMING is a high-end graphics card produced by ASUS, designed for use in gaming and other demanding applications. It is based on the NVIDIA Ampere architecture and features the NVIDIA GeForce RTX 4080 GPU, which is capable of delivering exceptional graphics performance.",
+    "The card is designed for demanding gaming and professional applications, offering high-performance and advanced features such as real-time ray tracing and AI-acceleration. The TUF-RTX4080-O16G-GAMING also features ASUS's TUF Gaming design, which includes reinforced components, a rugged metal shroud, and advanced cooling technology to ensure stable performance and longevity.",
 });
 
-// items.save(function(err){
-//  if(!err){
-//   console.log("success")
-//  }else{
-//   console.log(err)
-//  }
-// });
+items.save(function(err){
+ if(!err){
+  console.log("success")
+ }else{
+  console.log(err)
+ }
+});
 // review and rate collection connection with productSchema and userSchema
 
 
@@ -326,6 +326,8 @@ app.post("/search", async (req, res) => {
   }
 });
 
+
+
 app.get("/usersWhoRated", async (req, res) => {
   const productId = req.query.prodReview;
   const result = await ReviewRate.aggregate([
@@ -458,6 +460,7 @@ app.get("/graphiscore/:_id", (req, res) => {
             $project: {
               _id: '$userReview',
               displayName: '$userObj.displayName',
+              profilePicture: '$userObj.profilePicture',
               rate: '$rating',
               review: '$review',
               date: '$date',
@@ -567,7 +570,7 @@ app.get("/profile", (req, res) => {
     const userId = req.user._id;
     console.log(userId)
     account(userId).then((currentUser) => {
-    
+
       res.render('profile', { currentUser: currentUser, hideButtons: false });
     }).catch((err) => {
       console.log(err);
@@ -593,11 +596,10 @@ app.get("/profile/:_id", function(req, res) {
   });
 });
 
-
-
 app.get("/account-settings", (req, res) => {
   if (req.isAuthenticated()) {
     let getUrl = req.user._id;
+    console.log(getUrl);
     account(getUrl)
     .then((result) => {
        res.render("account-settings", { currentUser: result });
@@ -612,7 +614,6 @@ app.get("/account-settings", (req, res) => {
 });
 
 app.post('/account-settings', (req, res) => {
-
   var displayName = req.body.displayName;
   var displayBio = req.body.displayBio;
   var userId = req.user._id;
@@ -621,7 +622,7 @@ app.post('/account-settings', (req, res) => {
   // Create or update the user in the database
   User.findOneAndUpdate({ _id: userId }, { displayName: displayName, bio: displayBio, profilePicture: upload_img}, { upsert: true })
     .then((updatedUser) => {
-      console.log('User updated:', updatedUser);
+      console.log('User updated:');
       res.redirect('/profile');
     })
     .catch((error) => {
@@ -630,7 +631,6 @@ app.post('/account-settings', (req, res) => {
     });
 
 });
-
 
 app.listen(3000 || process.env.PORT, function () {
   console.log("Server started on port 3000");
