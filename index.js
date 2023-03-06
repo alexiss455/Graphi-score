@@ -65,13 +65,13 @@ const items = new Product({
     "The card is designed for demanding gaming and professional applications, offering high-performance and advanced features such as real-time ray tracing and AI-acceleration. The TUF-RTX4080-O16G-GAMING also features ASUS's TUF Gaming design, which includes reinforced components, a rugged metal shroud, and advanced cooling technology to ensure stable performance and longevity.",
 });
 
-items.save(function(err){
- if(!err){
-  console.log("success")
- }else{
-  console.log(err)
- }
-});
+// items.save(function(err){
+//  if(!err){
+//   console.log("success")
+//  }else{
+//   console.log(err)
+//  }
+// });
 // review and rate collection connection with productSchema and userSchema
 
 
