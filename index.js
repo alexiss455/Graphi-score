@@ -112,6 +112,19 @@ app.use(function (req, res, next) {
   next();
 });
 
+function checkAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return res.redirect("/");
+  }
+  next();
+} 
+function checkIfNotAuthenticated(req, res, next) {
+  if (!req.isAuthenticated()) {
+    return res.redirect('/login');
+  }
+  next();
+}
+
 // home populate the products
 app.get("/", function (req, res) {
   ReviewRate.aggregate([
@@ -227,20 +240,12 @@ app.post("/review", (req, res) => {
 });
 
 
-app.get("/login", function (req, res) {
-  if (req.isAuthenticated()) {
-    res.redirect("/");
-  } else {
+app.get("/login", checkAuthenticated, function (req, res) {
     res.render("login");
-  }
 });
 
-app.get("/register", function (req, res) {
-  if (req.isAuthenticated()) {
-    res.redirect("/");
-  } else {
-    res.render("register", { error: null });
-  }
+app.get("/register", checkAuthenticated , function (req, res) {
+    res.render("register");
 });
 
 app.get("/graphiscore", (req, res, next) => {
@@ -298,6 +303,7 @@ app.post("/login", function (req, res) {
   });
 });
 
+
 app.get("/logout", function (req, res) {
   req.logout(function (err) {
     if (err) {
@@ -309,6 +315,7 @@ app.get("/logout", function (req, res) {
     });
   });
 });
+
 
 app.post("/search", async (req, res) => {
   try {
@@ -327,7 +334,6 @@ app.post("/search", async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
-
 
 
 app.get("/usersWhoRated", async (req, res) => {
@@ -361,7 +367,7 @@ app.get("/usersWhoRated", async (req, res) => {
 
 });
 
-app.get("/review", (req, res) => {
+app.get("/review",checkIfNotAuthenticated, (req, res) => {
   var productDprev = [
     {
       productName: "",
@@ -371,15 +377,10 @@ app.get("/review", (req, res) => {
       totalReviews: "",
     },
   ];
-  if (req.isAuthenticated()) {
     res.render("review", { productPrev: productDprev });
-  } else {
-    res.render("login");
-  }
 });
 
-app.get("/review/:_id", function (req, res) {
-  if (req.isAuthenticated()) {
+app.get("/review/:_id", checkIfNotAuthenticated, function (req, res) {
 
     const getUrl = req.params._id;
 
@@ -428,10 +429,9 @@ app.get("/review/:_id", function (req, res) {
       res.render("review", { productPrev: productPrev });
     }
   });
-  } else {
-    res.render("login");
-  }
+
 });
+
 
 app.get("/graphiscore/:_id", (req, res) => {
   let getUrl = req.params._id;
@@ -567,22 +567,18 @@ async function account(id) {
   }
 }
 
-app.get("/profile", (req, res) => {
-  if (req.isAuthenticated()) {
+app.get("/profile", checkIfNotAuthenticated, (req, res) => {
     const userId = req.user._id;
     console.log(userId)
     account(userId).then((currentUser) => {
-
       res.render('profile', { currentUser: currentUser, hideButtons: false });
     }).catch((err) => {
       console.log(err);
       res.redirect('/');
     });
 
-  } else {
-    res.redirect("/");
-  }
 });
+
 
 app.get("/profile/:_id", function(req, res) {
   let getUrl = req.params._id;
@@ -598,8 +594,8 @@ app.get("/profile/:_id", function(req, res) {
   });
 });
 
-app.get("/account-settings", (req, res) => {
-  if (req.isAuthenticated()) {
+app.get("/account-settings", checkIfNotAuthenticated, (req, res) => {
+ 
     let getUrl = req.user._id;
     console.log(getUrl);
     account(getUrl)
@@ -610,9 +606,6 @@ app.get("/account-settings", (req, res) => {
       console.log(error);
       res.render("error");
     });
-  } else {
-    res.redirect("/");
-  }
 });
 
 app.post('/account-settings', (req, res) => {
@@ -631,7 +624,6 @@ app.post('/account-settings', (req, res) => {
       console.error('Error updating user:', error);
       res.redirect('/error');
     });
-
 }); 
 
 app.listen(3000 || process.env.PORT, function () {
