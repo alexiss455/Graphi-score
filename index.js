@@ -22,6 +22,9 @@ app.use(
     secret: "Our little secret.",
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 10 // 10 days in milliseconds
+    }
   })
 );
 
@@ -65,7 +68,6 @@ const items = new Product({
   ),
   description: "The GV-N4080GAMING-OC-16GD is a high-end graphics card made by Gigabyte, designed for demanding gaming and professional applications. It features NVIDIA's latest Ampere architecture with 16GB of GDDR6 memory and is equipped with Gigabyte's WINDFORCE 3X cooling system, which includes three unique blade fans and alternate spinning. The OC in the name indicates that the card is factory overclocked for higher performance out of the box. This graphics card also supports various advanced features such as Ray Tracing and DLSS for enhanced realism and image quality. Overall, the GV-N4080GAMING-OC-16GD is a powerful graphics card that delivers excellent performance for the most demanding applications."
 });
-
 // items.save(function(err){
 //  if(!err){
 //   console.log("success")
@@ -73,8 +75,6 @@ const items = new Product({
 //   console.log(err)
 //  }
 // });
-
-
 
 
 // review_rate collection
