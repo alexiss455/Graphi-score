@@ -1,4 +1,13 @@
 <%- include('partials/header'); -%>
+
+<% if (errors) { %>
+    <% errors.forEach(error => { %>
+      <script>
+        toastr.error('<%= error %>');
+    </script>
+    <% }); %>
+  <% } %>
+  
 <main>
 <div class="containers container-login">
 <div class="login-form">

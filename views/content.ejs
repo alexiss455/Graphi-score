@@ -1,5 +1,14 @@
 <%- include('partials/header'); -%>
 <section class="section-content">
+
+  <% if (success) { %>
+    <% success.forEach(error => { %>
+      <script>
+        toastr.success("<%= error %>")
+      </script>
+    <% }); %>
+  <% } %>
+
   <main>
     <div class="swiper">
       <div class="containers">

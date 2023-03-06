@@ -68,8 +68,6 @@ try {
      document.addEventListener("click", function(event) {
        if (!inputview.contains(event.target) &&  !viewResult.contains(event.target)) {
          viewResult.style.display = "none";
-        var a = inputview.ariaPlaceholder;
-        console.log(a)
        }
      });
   } catch (error) {

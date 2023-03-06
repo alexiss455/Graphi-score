@@ -11,7 +11,10 @@ const passport = require("passport");
 const app = express();
 const fs = require("fs-extra");
 const multer = require('multer');
+// alert
+const flash = require('connect-flash');
 
+app.use(flash());
 app.use(express.json());
 app.use(express.static("public"));
 app.set("view engine", "ejs");
@@ -30,6 +33,7 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
+
 // databases
 mongoose.set("strictQuery", false);
 mongoose.connect("mongodb+srv://Alexiess:gagoka45@alexiess.9vhaijd.mongodb.net/Userdb", { useNewUrlParser: true });
@@ -120,6 +124,7 @@ function checkAuthenticated(req, res, next) {
 } 
 function checkIfNotAuthenticated(req, res, next) {
   if (!req.isAuthenticated()) {
+    req.flash('error', 'You need to log in first.'); // Add error flash message
     return res.redirect('/login');
   }
   next();
@@ -176,7 +181,10 @@ app.get("/", function (req, res) {
           product.average = parseFloat(product.average.toFixed(1));
         }
       });
-      res.render("content", { mostRated: results });
+
+      const success = req.flash("success") || [];
+      res.render("content", { mostRated: results , success});
+
     }
   });
 });
@@ -239,49 +247,16 @@ app.post("/review", (req, res) => {
   }
 });
 
-
-app.get("/login", checkAuthenticated, function (req, res) {
-    res.render("login");
-});
-
-app.get("/register", checkAuthenticated , function (req, res) {
-    res.render("register");
-});
-
 app.get("/graphiscore", (req, res, next) => {
   res.render("graphiscore");
 });
 
-app.post("/register", function (req, res) {
-  const { username, password, display_name } = req.body;
-  User.register(
-    { username: username, displayName: display_name },
-    password,
-    function (err, user) {
-      if (err) {
-        if (err.name === "UserExistsError") {
-          // handle UserExistsError
-          res.render("register", {
-            error: "Entered username/email is already registered",
-          });
-        } else {
-          console.log(err);
-          res.render("register", { error: "Server error" });
-        }
-      } else {
-        passport.authenticate("local", { failureRedirect: "/register" })(
-          req,
-          res,
-          function () {
-            res.redirect("/");
-          }
-        );
-      }
-    }
-  );
+app.get("/login", checkAuthenticated, function (req, res) {
+    const errors = req.flash("error") || [];
+    res.render("login", { errors });
 });
 
-app.post("/login", function (req, res) {
+app.post("/login", function (req, res, next) {
   const user = new User({
     username: req.body.username,
     password: req.body.password,
@@ -289,18 +264,46 @@ app.post("/login", function (req, res) {
   req.login(user, function (err) {
     if (err) {
       console.log(err);
+      next(err);
     } else {
-      passport.authenticate("local", { failureRedirect: "/login" })(
-        req,
-        res,
-        function () {
+
+      passport.authenticate("local", { failureRedirect: "/login", failureFlash: true })(req, res, function () {
           req.session.prof = true;
           req.session.storeName = req.user.displayName;
+          req.flash("success", "You have successfully logged in!");
           res.redirect("/");
-        }
-      );
+        });
+
     }
+  }, function (err) { // Add error flash message
+    req.flash("error", "Invalid username or password!");
+    res.redirect("/login");
   });
+});
+
+app.get("/register", checkAuthenticated , function (req, res) {
+
+    const errors = req.flash("error") || [];
+    res.render("register", { errors });
+
+});
+
+app.post("/register", function (req, res) {
+  const { username, password, display_name } = req.body;
+  User.register({ username: username, displayName: display_name }, password, function (err, user) {
+      if (err) {
+          var msg = err.message
+          msg = "Email is already registered"
+          req.flash("error", msg);
+          res.redirect("/register");
+      } else {
+        passport.authenticate("local", { failureRedirect: "/register", failureFlash: true})(req, res, function () {
+          req.flash("success", "You have successfully logged in!");  
+          res.redirect("/");
+          });
+      }
+    }
+  );
 });
 
 
@@ -367,6 +370,7 @@ app.get("/usersWhoRated", async (req, res) => {
 
 });
 
+
 app.get("/review",checkIfNotAuthenticated, (req, res) => {
   var productDprev = [
     {
@@ -380,10 +384,10 @@ app.get("/review",checkIfNotAuthenticated, (req, res) => {
     res.render("review", { productPrev: productDprev });
 });
 
+
 app.get("/review/:_id", checkIfNotAuthenticated, function (req, res) {
 
-    const getUrl = req.params._id;
-
+  const getUrl = req.params._id;
   ReviewRate.aggregate([
     {
       $match: { product: mongoose.Types.ObjectId(getUrl) }
@@ -525,6 +529,7 @@ app.get("/graphiscore/:_id", (req, res) => {
     });
 });
 
+
 async function account(id) {
   try {
     const user = await User.findById(id)
@@ -584,7 +589,7 @@ app.get("/profile/:_id", function(req, res) {
   let getUrl = req.params._id;
   console.log(getUrl)
   User.findById(getUrl, function(err, foundId) {
- 
+
     account(foundId._id).then((result) => {
     res.render("profile", { currentUser: result, hideButtons: true });
   }).catch((error) => {
@@ -624,6 +629,7 @@ app.post('/account-settings', (req, res) => {
       console.error('Error updating user:', error);
       res.redirect('/error');
     });
+
 }); 
 
 app.listen(3000 || process.env.PORT, function () {

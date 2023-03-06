@@ -1,4 +1,15 @@
 <%- include('partials/header'); -%>
+
+
+<% if (errors) { %>
+  <% errors.forEach(error => { %>
+    <script>
+      toastr.error('<%= error %>');
+  </script>
+  <% }); %>
+<% } %>
+
+
 <main>
   <div class="containers container-login container-register">
     <div class="login-form order-register">
@@ -32,4 +43,5 @@
     <div class="pics-regs"></div>
   </div>
 </main>
+
 <%- include('partials/footer'); -%>
