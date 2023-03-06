@@ -16,6 +16,7 @@ app.use(express.json());
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+
 app.use(
   session({
     secret: "Our little secret.",
@@ -56,13 +57,13 @@ const productSchema = new mongoose.Schema({
   description: String,
 });
 const Product = mongoose.model("Product", productSchema);
+
 const items = new Product({
-  productName: "TUF-RTX4080-O16G-GAMING",
+  productName: "GV-N4080GAMING-OC-16GD",
   productImage: fs.readFileSync(
-    "public/GraphiscorePicture/TUF-RTX4080-O16G-GAMING.png"
+    "public/GraphiscorePicture/GV-N4080GAMING-OC-16GD.png"
   ),
-  description:
-    "The card is designed for demanding gaming and professional applications, offering high-performance and advanced features such as real-time ray tracing and AI-acceleration. The TUF-RTX4080-O16G-GAMING also features ASUS's TUF Gaming design, which includes reinforced components, a rugged metal shroud, and advanced cooling technology to ensure stable performance and longevity.",
+  description: "The GV-N4080GAMING-OC-16GD is a high-end graphics card made by Gigabyte, designed for demanding gaming and professional applications. It features NVIDIA's latest Ampere architecture with 16GB of GDDR6 memory and is equipped with Gigabyte's WINDFORCE 3X cooling system, which includes three unique blade fans and alternate spinning. The OC in the name indicates that the card is factory overclocked for higher performance out of the box. This graphics card also supports various advanced features such as Ray Tracing and DLSS for enhanced realism and image quality. Overall, the GV-N4080GAMING-OC-16GD is a powerful graphics card that delivers excellent performance for the most demanding applications."
 });
 
 // items.save(function(err){
@@ -72,7 +73,8 @@ const items = new Product({
 //   console.log(err)
 //  }
 // });
-// review and rate collection connection with productSchema and userSchema
+
+
 
 
 // review_rate collection
@@ -630,7 +632,7 @@ app.post('/account-settings', (req, res) => {
       res.redirect('/error');
     });
 
-});
+}); 
 
 app.listen(3000 || process.env.PORT, function () {
   console.log("Server started on port 3000");
