@@ -28,15 +28,15 @@
             <span>raphiScore</span>
         </div>
         </a>
-       <div class="search">
-            <div class="icon-search">
-                <i class='bx bx-search'></i>
-            </div>
+        
+       <div class="search_user">
             <div class="input-search">
-                <input type="text" placeholder="search" class="input-searchs">
-                <i class='bx bx-x x-Close'></i>
+                <i class='bx bx-search'></i>
+                <input type="text" placeholder="Search users" class="input-searchs">
             </div>
+            <div class="search_user_result"></div>
        </div>
+       <i class='bx bx-search-alt-2'></i>
     </div>
     
             <nav class="navigation">
@@ -45,11 +45,13 @@
                     <a href="/graphiscore" class="link">GraphiScore</a>
                     <a href="" class="link">About</a>
                 </ul>
+                
                 <% if(prof === true){ %>
                     <%- include('user/iflogin'); -%>
                 <% }else{ %>
                     <%- include('user/ifnotlogin'); -%>
                 <% } %>
+
                 <div>
                 <div class="close">
                     <i class='bx bx-x'></i>

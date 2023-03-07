@@ -2,29 +2,31 @@ var navMenu = document.querySelector(".menu");
 var nav11 = document.querySelector(".navigation");
 var navClose = document.querySelector(".close");
 
-var icons = document.querySelector(".bx-search");
 
-var searchBar = document.querySelector(".input-search");
-var closeBar = document.querySelector(".x-Close");
+var icons = document.querySelector(".bx-search-alt-2");
+var searchBar = document.querySelector(".search_user");
 
 if (navMenu) {
   navMenu.addEventListener("click", function () {
+    console.log("click")
     nav11.classList.add("show");
   });
 }
 if (navClose) {
   navClose.addEventListener("click", function () {
+    console.log("click2")
     nav11.classList.remove("show");
   });
 }
+
 if (icons) {
   icons.addEventListener("click", function () {
-    searchBar.classList.add("show-bar");
-  });
-}
-if (closeBar) {
-  closeBar.addEventListener("click", function () {
-    searchBar.classList.remove("show-bar");
+    if(searchBar.style.display === "block"){
+      searchBar.style.display = "none"
+    }else{
+      searchBar.style.display = "block"
+    }
+  
   });
 }
 
@@ -68,6 +70,8 @@ try {
      document.addEventListener("click", function(event) {
        if (!inputview.contains(event.target) &&  !viewResult.contains(event.target)) {
          viewResult.style.display = "none";
+         var aa = inputview.placeholder;
+         inputview.value = aa
        }
      });
   } catch (error) {

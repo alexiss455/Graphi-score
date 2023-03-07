@@ -4,6 +4,7 @@
   <% if (success) { %>
     <% success.forEach(error => { %>
       <script>
+        toastr.options.positionClass = "toast-bottom-right";
         toastr.success("<%= error %>")
       </script>
     <% }); %>
@@ -71,7 +72,7 @@
                   </div>
 
                   <div class="review">
-                    <p><%= mostRated[i].description.substring(0, 200) %>..</p>
+                    <p><%= mostRated[i].description.substring(0, 150) %>..</p>
                     <p class="all_reviews">
                       (<%= mostRated[i].totalReviews %>)Reviews
                     </p>

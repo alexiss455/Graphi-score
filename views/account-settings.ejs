@@ -20,12 +20,15 @@
                    <% } %>
                    
                 </div>
-                <input type="hidden" class="hide_file" name="upload_image">
-                <input type="file" id="file" accept="img/*" class="file-input">
+            
+                <!-- <input type="hidden" class="hide_file" name="upload_image"> -->
+                <!-- <input type="file" id="file" accept="img/*" class="file-input" disabled> -->
                 <label for="file" class="choose_file"><i class='bx bxs-image-add'></i>Choose Photo</label>
+                <p class="upload_image_link"><i class='bx bx-unlink'></i>Upload using link</p>
+                <input type="text" name="upload_image" class="file-input">
             </div>
-
             <div class="account_display">
+
                 <h3>Display Name</h3>
                 <input type="text" name="displayName" id="" value="<%= currentUser.user.displayName %>">
                 <h3>Bio</h3>

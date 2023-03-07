@@ -1,0 +1,196 @@
+
+app.get('/search_bar', (req, res) => {
+  const displayName = req.query.displayName;
+  if (!displayName) {
+    return res.status(400).send('Missing search term');
+  }
+
+  // Search for users by displayName using the User model
+  User.find({ displayName: { $regex: new RegExp(displayName, 'i') } })
+    .then(users => {
+
+      res.json(users);
+    })
+    .catch(error => {
+      console.error(error);
+      res.status(500).send('Error searching for users');
+    });
+});
+
+_________________________________________________________________________
+//search function
+
+searchBar.addEventListener('input', () => {
+  const searchTerm = searchBar.value.trim();
+
+  if (searchTerm) {
+    // Make an AJAX request to the server to search for users
+    fetch(`/search_bar?displayName=${encodeURIComponent(searchTerm)}`)
+      .then(response => response.json())
+      .then(users => {
+        // Clear the search results
+        search_Result_main.innerHTML = '';
+
+        // Render the search results
+        users.forEach(user => {
+          search_Result_main.style.display = "flex";
+          const userLink = document.createElement('a');
+          const userText = document.createElement('p');
+          userLink.href = "/profile/" + user._id; // Replace with your own URL format
+          userText.textContent = user.displayName;
+
+          if (user.profilePicUrl) {
+            const primgSearch = document.createElement('img');
+            primgSearch.src = user.profilePicUrl;
+            userLink.appendChild(primgSearch);
+          }
+          else {
+            const primgSearch = document.createElement('img');
+            primgSearch.src = "/imgs/login.jpg";
+            userLink.appendChild(primgSearch);
+          }           
+          userLink.appendChild(userText);
+          search_Result_main.appendChild(userLink);
+        });                      
+      })
+      .catch(error => {
+        console.error(error);
+        search_Result_main.innerHTML = 'Error searching for users';
+      });
+  } else {
+    // Clear the search results if search input is empty
+    search_Result_main.innerHTML = '';
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+app.get("/products", async function(req, res) {
+    try {
+      const products = await Product.find();
+      const productsWithRating = [];
+  
+      for (let i = 0; i < products.length; i++) {
+        const product = products[i];
+        const reviews = await Review.find({ product: product._id });
+  
+        let totalRating = 0;
+        let totalReview = 0;
+        let numReviews = 0;
+  
+        for (let j = 0; j < reviews.length; j++) {
+          const review = reviews[j];
+          if (review.rate && review.rate !== "") {
+            totalRating += parseInt(review.rate);
+            numReviews++;
+          }
+          if (review.review && review.review !== "") {
+            totalReview++;
+          }
+        }
+  
+            let averageRating = numReviews > 0 ? totalRating / numReviews : 0;
+  
+        productsWithRating.push({
+          _id: product._id,
+          productName: product.productName,
+          productDscrp: product.productDscrp,
+          numReviews: numReviews,
+          averageRating: averageRating.toFixed(1),
+          totalReview: totalReview,
+          productImgUrl: product.productImgUrl
+        });
+      }
+      console.log(productsWithRating)
+      res.json(productsWithRating);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  });
+  
+  
+  
+  __________________________________________________________
+  
+  
+  
+  const searchGpu = document.getElementById("search-product-gpu");
+  const productList = document.getElementById("product-list");
+  let products = [];
+  
+  async function getProducts() {
+    try {
+      const response = await fetch("/products");
+      products = await response.json();
+      renderProducts(products);
+    } catch (err) {}
+  }
+  
+  function renderProducts(productsToRender) {
+    let productHTML = "";
+    productsToRender.forEach(function(product) {
+      productHTML += `
+        <div class="product-div">
+          <a href="/graphiscore/${product._id}">
+            <img src ="${product.productImgUrl}" class="gpus-img">
+            <h2 class="product-name">${product.productName}</h2>
+            <p class="product-rate">Ratings ${product.numReviews}</p>
+            <p class="product-totalReview">Reviews ${product.totalReview}</p>
+            <div class="star-rating-gpu"></div>
+            <p class="product-aver">${product.averageRating}</p>
+          </a>
+        </div>
+      `;
+    });
+  
+    productList.innerHTML = productHTML;
+  
+    // user account graphiscore averating graphics rating
+    insertRatingHTML(".star-rating-gpu");
+    const ratingUpper6 = document.querySelectorAll(".star-rating-gpu .rating-upper");
+    const ratingElement6 = document.querySelectorAll(".product-aver");
+    StarAverageRating(ratingUpper6, ratingElement6);
+  }
+  try {
+    function filterProducts() {
+      const searchQuery = searchGpu.value.trim().toLowerCase();
+      let filteredProducts = [];
+    
+      if (searchQuery !== "") {
+        filteredProducts = products.filter(function(product) {
+          const productName = product.productName.toLowerCase();
+          const productDescription = product.productDscrp.toLowerCase();
+          
+          return productName.includes(searchQuery) || productDescription.includes(searchQuery);
+        });
+      } else {
+        filteredProducts = products;
+      }
+    
+      if (filteredProducts.length > 0) {
+        renderProducts(filteredProducts);
+      } else {
+        productList.innerHTML = "<p>No products found.</p>";
+      }
+    }
+  getProducts();
+  searchGpu.addEventListener("input", filterProducts);
+  
+  
+  } catch (error) {}

@@ -1,5 +1,15 @@
 <%- include('partials/header'); -%>
 <section class="section-content-review">
+
+    <% if (errors) { %>
+        <% errors.forEach(error => { %>
+          <script>
+             toastr.options.positionClass = "toast-bottom-right";
+            toastr.error('<%= error %>');
+        </script>
+        <% }); %>
+      <% } %>
+
 <main>
 <div class="review-container containers">
 <div class="review-content">
@@ -30,19 +40,19 @@
             <p class="rate-description"></p>
             <div class="stars">
                
-            <input type="radio" id="rate-5" name="rate" value="5" required>
+            <input type="radio" id="rate-5" name="rate" value="5">
             <label for="rate-5" class='bx bxs-star'></label>  
               
-            <input type="radio" id="rate-4" name="rate" value="4" required>
+            <input type="radio" id="rate-4" name="rate" value="4">
             <label for="rate-4" class='bx bxs-star'></label> 
 
-            <input type="radio" id="rate-3" name="rate" value="3" required>
+            <input type="radio" id="rate-3" name="rate" value="3">
             <label for="rate-3" class='bx bxs-star'></label> 
 
-            <input type="radio" id="rate-2" name="rate" value="2" required>
+            <input type="radio" id="rate-2" name="rate" value="2">
             <label for="rate-2" class='bx bxs-star'></label>
 
-            <input type="radio" id="rate-1" name="rate" value="1" required>
+            <input type="radio" id="rate-1" name="rate" value="1">
             <label for="rate-1" class='bx bxs-star'></label>
 
             </div>

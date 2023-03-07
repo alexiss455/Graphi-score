@@ -4,6 +4,7 @@
 <% if (errors) { %>
   <% errors.forEach(error => { %>
     <script>
+       toastr.options.positionClass = "toast-bottom-right";
       toastr.error('<%= error %>');
   </script>
   <% }); %>

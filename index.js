@@ -43,7 +43,7 @@ const userSchema = new mongoose.Schema({
   password: String,
   displayName: String,
   bio: String,
-  profilePicture: Buffer,
+  profilePicture: String,
 });
 // passport_local_mongoose
 userSchema.plugin(passportLocalMongoose);
@@ -124,7 +124,7 @@ function checkAuthenticated(req, res, next) {
 } 
 function checkIfNotAuthenticated(req, res, next) {
   if (!req.isAuthenticated()) {
-    req.flash('error', 'You need to log in first.'); // Add error flash message
+    req.flash('error', 'Please login to access this page!'); // Add error flash message
     return res.redirect('/login');
   }
   next();
@@ -189,63 +189,6 @@ app.get("/", function (req, res) {
   });
 });
 
-// review route
-app.post("/review", (req, res) => {
-  const rate = req.body.rate;
-  const review_area = req.body.review_area;
-  const prodReview = req.body.review_prod_name;
-  const user = req.user;
-
-  if (prodReview === "") {
-    console.log("no product selected");
-    res.render("review");
-  } else if (rate === undefined) {
-    console.log("no selected rate");
-    res.render("review");
-  } else {
-    Product.findOne({ productName: prodReview }, (err, foundProduct) => {
-      if (err) {
-        console.log(err);
-      } else {
-        ReviewRate.findOne(
-          { product: foundProduct, userReview: user },
-          (err, existingReview) => {
-            if (err) {
-              console.log(err);
-            } else if (existingReview) {
-              existingReview.rating = rate;
-              existingReview.review = review_area;
-
-              existingReview.save((err) => {
-                if (err) {
-                  console.log(err);
-                } else {
-                  console.log("Review updated");
-                  res.redirect("/graphiscore/" + foundProduct._id);
-                }
-              });
-            } else {
-              const rating_review_item = new ReviewRate({
-                rating: rate,
-                review: review_area,
-                product: foundProduct,
-                userReview: user,
-              });
-              rating_review_item.save((err) => {
-                if (err) {
-                  console.log(err);
-                } else {
-                  console.log("Review saved");
-                  res.redirect("/graphiscore/" + foundProduct._id);
-                }
-              });
-            }
-          }
-        );
-      }
-    });
-  }
-});
 
 app.get("/graphiscore", (req, res, next) => {
   res.render("graphiscore");
@@ -293,7 +236,7 @@ app.post("/register", function (req, res) {
   User.register({ username: username, displayName: display_name }, password, function (err, user) {
       if (err) {
           var msg = err.message
-          msg = "Email is already registered"
+          msg = "Email is already registered!"
           req.flash("error", msg);
           res.redirect("/register");
       } else {
@@ -381,7 +324,88 @@ app.get("/review",checkIfNotAuthenticated, (req, res) => {
       totalReviews: "",
     },
   ];
-    res.render("review", { productPrev: productDprev });
+    const errors = req.flash("error") || [];
+    res.render("review", { productPrev: productDprev, errors });
+});
+
+// review route
+app.post("/review", (req, res) => {
+
+  const rate = req.body.rate;
+  const review_area = req.body.review_area;
+  const prodReview = req.body.review_prod_name;
+  const user = req.user;
+
+  if (prodReview === "") {
+
+    req.flash("error", "No GPU selected!")
+    console.log("no product selected");
+    res.redirect(req.headers.referer || "/review")
+
+  } else if (rate === undefined) {
+
+    req.flash("error", "Please leave a rate!")
+    console.log("no selected rate");
+    res.redirect(req.headers.referer || "/review")
+
+  } else {
+    Product.findOne({ productName: prodReview }, (err, foundProduct) => {
+      if (err) {
+        console.log(err);
+      } else {
+        ReviewRate.findOne(
+          { product: foundProduct, userReview: user },
+          (err, existingReview) => {
+            if (err) {
+              console.log(err);
+            } else if (existingReview) {
+              existingReview.rating = rate;
+              existingReview.review = review_area;
+              existingReview.save((err) => {
+                if (err) {
+
+                  req.flash("error", err.message)
+                  console.log(err)
+                  res.redirect(req.headers.referer || "/review")
+
+                } else {
+
+                  req.flash("success", "Review update! 👏")
+                  console.log("Review updated!");
+                  res.redirect("/graphiscore/" + foundProduct._id);
+                  
+                }
+              });
+
+            } else {
+              const rating_review_item = new ReviewRate({
+                rating: rate,
+                review: review_area,
+                product: foundProduct,
+                userReview: user,
+              });
+              rating_review_item.save((err) => {
+                if (err) {
+
+                  var msg = err.message;
+                  msg = "Please select a GPU!"
+                  req.flash("error", msg)
+                  res.redirect(req.headers.referer || "/review")
+
+                } else {
+
+                  req.flash("success", "Review saved! 😍");
+                  console.log("Review saved");
+                  res.redirect("/graphiscore/" + foundProduct._id);
+
+                }
+              });
+            }
+          }
+        );
+      }
+    });
+  }
 });
 
 
@@ -430,7 +454,9 @@ app.get("/review/:_id", checkIfNotAuthenticated, function (req, res) {
       if (productPrev[0].productImage) {
         productPrev[0].productImage = productPrev[0].productImage.toString('base64');
       }
-      res.render("review", { productPrev: productPrev });
+
+      const errors = req.flash("error") || [];
+      res.render("review", { productPrev: productPrev, errors});
     }
   });
 
@@ -524,7 +550,9 @@ app.get("/graphiscore/:_id", (req, res) => {
             });
           }
         });
-        res.render("product-view", { productPrev: productPrev });
+
+        const success = req.flash("success") || [];
+        res.render("product-view", { productPrev: productPrev, success});
       }
     });
 });
@@ -575,6 +603,7 @@ async function account(id) {
 app.get("/profile", checkIfNotAuthenticated, (req, res) => {
     const userId = req.user._id;
     console.log(userId)
+
     account(userId).then((currentUser) => {
       res.render('profile', { currentUser: currentUser, hideButtons: false });
     }).catch((err) => {
@@ -588,8 +617,8 @@ app.get("/profile", checkIfNotAuthenticated, (req, res) => {
 app.get("/profile/:_id", function(req, res) {
   let getUrl = req.params._id;
   console.log(getUrl)
-  User.findById(getUrl, function(err, foundId) {
 
+  User.findById(getUrl, function(err, foundId) {
     account(foundId._id).then((result) => {
     res.render("profile", { currentUser: result, hideButtons: true });
   }).catch((error) => {
@@ -600,7 +629,6 @@ app.get("/profile/:_id", function(req, res) {
 });
 
 app.get("/account-settings", checkIfNotAuthenticated, (req, res) => {
- 
     let getUrl = req.user._id;
     console.log(getUrl);
     account(getUrl)
@@ -622,15 +650,41 @@ app.post('/account-settings', (req, res) => {
   // Create or update the user in the database
   User.findOneAndUpdate({ _id: userId }, { displayName: displayName, bio: displayBio, profilePicture: upload_img}, { upsert: true })
     .then((updatedUser) => {
-      console.log('User updated:');
+      console.log('User updated:', updatedUser);
       res.redirect('/profile');
     })
     .catch((error) => {
       console.error('Error updating user:', error);
       res.redirect('/error');
     });
+});
 
-}); 
+
+
+
+app.get('/search_bar', (req, res) => {
+  const displayName = req.query.displayName;
+  if (!displayName) {
+    return res.status(400).send('Missing search term');
+  }
+  // Search for users by displayName using the User model
+  User.find({ displayName: { $regex: new RegExp(displayName, 'i') } })
+    .then(userss => {
+
+      res.json(userss);
+    })
+    .catch(error => {
+      console.error(error);
+      res.status(500).send('Error searching for users');
+    });
+});
+  
+
+
+
+
+
+
 
 app.listen(3000 || process.env.PORT, function () {
   console.log("Server started on port 3000");

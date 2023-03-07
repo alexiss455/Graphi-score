@@ -1,5 +1,15 @@
 <%- include('partials/header'); -%>
 <main>
+
+  <% if (success) { %>
+    <% success.forEach(error => { %>
+      <script>
+        toastr.options.positionClass = "toast-bottom-right";
+        toastr.success("<%= error %>")
+      </script>
+    <% }); %>
+  <% } %>
+
   <div class="containers">
     <div class="prod-ratings-description">
       <div class="product_image_container">
@@ -11,7 +21,7 @@
           />
         </div>
       </div>
-
+      
       <div class="decription-title">
 
         <h1><%= productPrev[0].productName %></h1>

@@ -62,6 +62,7 @@ try {
   });
 
   inputView.addEventListener("input", async (event) => {
+
     const query = event.target.value.trim();
     if (query) {
       viewResult.style.display = "block";
@@ -70,6 +71,7 @@ try {
       viewResult.style.display = "none";
     }
   });
+  
 } catch (error) {}
 
 try {
@@ -121,19 +123,49 @@ try {
     });
 } catch (error) {}
 
-try {
-  const fileInput = document.querySelector(".file-input");
-  const previewImage = document.getElementById("preview-image");
-  const hide = document.querySelector(".hide_file");
 
-  fileInput.addEventListener("change", (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.addEventListener("load", () => {
-      previewImage.setAttribute("src", reader.result);
-      const srcLink = previewImage.getAttribute("src");
-      hide.value = srcLink;
-    });
-    reader.readAsDataURL(file);
-  });
-} catch (error) {}
+var searchUsers = document.querySelector(".input-searchs");
+var search_Result_main = document.querySelector(".search_user_result");
+
+searchUsers.addEventListener('input', () => {
+  const searchTerm = searchUsers.value.trim();
+
+  if (searchTerm) {
+    // Make an AJAX request to the server to search for users
+    fetch(`/search_bar?displayName=${encodeURIComponent(searchTerm)}`)
+      .then(response => response.json())
+      .then(users => {
+        // Clear the search results
+        search_Result_main.innerHTML = '';
+
+        // Render the search results
+        users.forEach(user => {
+          search_Result_main.style.display = "flex";
+          const userLink = document.createElement('a');
+          const userText = document.createElement('p');
+          userLink.href = "/profile/" + user._id; // Replace with your own URL format
+          userText.textContent = user.displayName;
+
+          if (user.profilePicture) {
+            const primgSearch = document.createElement('img');
+            primgSearch.src = user.profilePicture;
+            userLink.appendChild(primgSearch);
+          }
+          else {
+            const primgSearch = document.createElement('img');
+            primgSearch.src = "/img/My_project1.png";
+            userLink.appendChild(primgSearch);
+          }           
+          userLink.appendChild(userText);
+          search_Result_main.appendChild(userLink);
+        });                      
+      })
+      .catch(error => {
+        console.error(error);
+        search_Result_main.innerHTML = 'Error searching for users';
+      });
+  } else {
+    // Clear the search results if search input is empty
+    search_Result_main.innerHTML = '';
+  }
+});
