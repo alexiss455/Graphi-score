@@ -2,7 +2,6 @@ var navMenu = document.querySelector(".menu");
 var nav11 = document.querySelector(".navigation");
 var navClose = document.querySelector(".close");
 
-
 var icons = document.querySelector(".bx-search-alt-2");
 var searchBar = document.querySelector(".search_user");
 
@@ -27,6 +26,14 @@ if (icons) {
       searchBar.style.display = "block"
     }
   
+  });
+}
+
+if (window.innerWidth <= 500) {
+  document.addEventListener("click", function(event) {
+    if (!icons.contains(event.target) && !searchBar.contains(event.target)) {
+      searchBar.style.display = "none";
+    }
   });
 }
 

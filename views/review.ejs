@@ -73,7 +73,7 @@
             <% if(productPrev[0].productImage === ""){ %>
                     <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif?20151024034921" alt="review-img" class="review-pic">
                 <% }else{ %>
-                    <img src="data:image/png;base64,<%= productPrev[0].productImage %>" alt="review-img" class="review-pic">
+                    <img src="<%= productPrev[0].productImage %>" alt="review-img" class="review-pic">
             <% } %>
             
             <div class="prod-review">

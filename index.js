@@ -24,7 +24,7 @@ app.use(
   session({
     secret: "Our little secret.",
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 10 // 10 days in milliseconds
     }
@@ -60,16 +60,14 @@ passport.deserializeUser(function (id, done) {
 // product_collection
 const productSchema = new mongoose.Schema({
   productName: String,
-  productImage: Buffer,
+  productImage: String,
   description: String,
 });
 const Product = mongoose.model("Product", productSchema);
 
 const items = new Product({
   productName: "GV-N4080GAMING-OC-16GD",
-  productImage: fs.readFileSync(
-    "public/GraphiscorePicture/GV-N4080GAMING-OC-16GD.png"
-  ),
+  productImage: "",
   description: "The GV-N4080GAMING-OC-16GD is a high-end graphics card made by Gigabyte, designed for demanding gaming and professional applications. It features NVIDIA's latest Ampere architecture with 16GB of GDDR6 memory and is equipped with Gigabyte's WINDFORCE 3X cooling system, which includes three unique blade fans and alternate spinning. The OC in the name indicates that the card is factory overclocked for higher performance out of the box. This graphics card also supports various advanced features such as Ray Tracing and DLSS for enhanced realism and image quality. Overall, the GV-N4080GAMING-OC-16GD is a powerful graphics card that delivers excellent performance for the most demanding applications."
 });
 // items.save(function(err){
@@ -174,21 +172,16 @@ app.get("/", function (req, res) {
       res.render("content");
     } else {
       results.forEach(function (product) {
-        if (product.productImage) {
-          product.productImage = product.productImage.toString("base64");
-        }
         if (product.average) {
           product.average = parseFloat(product.average.toFixed(1));
         }
       });
-
       const success = req.flash("success") || [];
       res.render("content", { mostRated: results , success});
 
     }
   });
 });
-
 
 app.get("/graphiscore", (req, res, next) => {
   res.render("graphiscore");
@@ -249,7 +242,6 @@ app.post("/register", function (req, res) {
   );
 });
 
-
 app.get("/logout", function (req, res) {
   req.logout(function (err) {
     if (err) {
@@ -262,19 +254,13 @@ app.get("/logout", function (req, res) {
   });
 });
 
-
 app.post("/search", async (req, res) => {
   try {
     const payload = req.body.payload;
     const products = await Product.find({
       productName: { $regex: new RegExp("^" + payload + ".*", "i") },
     });
-    // Convert the productImage to a Base64-encoded string for each product
-    const productsWithBase64Images = products.map((product) => ({
-      ...product.toObject(),
-      productImage: product.productImage.toString("base64"),
-    }));
-    res.status(200).json({ products: productsWithBase64Images });
+    res.status(200).json({ products });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Internal Server Error" });
@@ -451,17 +437,12 @@ app.get("/review/:_id", checkIfNotAuthenticated, function (req, res) {
     if (err) {
       console.error(err);
     } else {
-      if (productPrev[0].productImage) {
-        productPrev[0].productImage = productPrev[0].productImage.toString('base64');
-      }
-
       const errors = req.flash("error") || [];
       res.render("review", { productPrev: productPrev, errors});
     }
   });
 
 });
-
 
 app.get("/graphiscore/:_id", (req, res) => {
   let getUrl = req.params._id;
@@ -533,10 +514,6 @@ app.get("/graphiscore/:_id", (req, res) => {
       if (productPrev.length === 0) {
         res.render("error", { message: "Product not found" });
       } else {
-        if (productPrev[0].productImage) {
-          productPrev[0].productImage =
-            productPrev[0].productImage.toString("base64");
-        }
         productPrev[0].reviewrates.forEach((element) => {
           if (element.date) {
             element.date = element.date.toLocaleString("en-US", {
@@ -565,12 +542,7 @@ async function account(id) {
       .populate("product", "productName productImage")
       .select("rating review date")
       .lean();
-
-    // format date and base64 encode product image
     reviews.forEach((review) => {
-      if (review.product.productImage) {
-        review.product.productImage = review.product.productImage.toString("base64");
-      }
       if (review.date) {
         review.date = review.date.toLocaleString("en-US", {
           month: "2-digit",
@@ -659,9 +631,6 @@ app.post('/account-settings', (req, res) => {
     });
 });
 
-
-
-
 app.get('/search_bar', (req, res) => {
   const displayName = req.query.displayName;
   if (!displayName) {
@@ -681,6 +650,49 @@ app.get('/search_bar', (req, res) => {
   
 
 
+
+app.get("/products", async function(req, res) {
+  try {
+    const products = await Product.find();
+    const productsWithRating = [];
+
+    for (let i = 0; i < products.length; i++) {
+      const product = products[i];
+      const reviews = await ReviewRate.find({ product: product._id });
+
+      let totalRating = 0;
+      let totalReview = 0;
+      let numReviews = 0;
+
+      for (let j = 0; j < reviews.length; j++) {
+        const review = reviews[j];
+        if (review.rating && review.rating !== "") {
+          totalRating += parseInt(review.rating);
+          numReviews++;
+        }
+        if (review.review && review.review !== "") {
+          totalReview++;
+        }
+      }
+
+      let averageRating = numReviews > 0 ? totalRating / numReviews : 0;
+
+      productsWithRating.push({
+        _id: product._id,
+        productName: product.productName,
+        numReviews: numReviews,
+        averageRating: averageRating.toFixed(1),
+        totalReview: totalReview,
+        productImage: product.productImage
+      });
+    }
+
+    console.log(productsWithRating)
+    res.json(productsWithRating);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
 
 

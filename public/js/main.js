@@ -24,10 +24,7 @@ const updateSearchResults = async (query) => {
       p.addEventListener("click", async () => {
         h1Text.innerHTML = product.productName;
         reviewPic.setAttribute("alt", product.productName);
-        reviewPic.setAttribute(
-          "src",
-          `data:image/png;base64,${product.productImage}`
-        );
+        reviewPic.setAttribute( "src", product.productImage);
         inputView.setAttribute("placeholder", product.productName);
         inputView.value = product.productName;
         viewResult.style.display = "none";
@@ -124,6 +121,11 @@ try {
 } catch (error) {}
 
 
+
+
+
+
+
 var searchUsers = document.querySelector(".input-searchs");
 var search_Result_main = document.querySelector(".search_user_result");
 
@@ -169,3 +171,97 @@ searchUsers.addEventListener('input', () => {
     search_Result_main.innerHTML = '';
   }
 });
+
+
+
+
+
+
+
+const searchGpu = document.getElementById("search-product-gpu");
+const productList = document.querySelector(".graphiscore-content");
+let products = [];
+
+async function getProducts() {
+  try {
+    const response = await fetch("/products");
+    products = await response.json();
+    renderProducts(products);
+  } catch (err) {}
+}
+
+function renderProducts(productsToRender) {
+  let productHTML = "";
+  productsToRender.forEach(function(product) {
+    productHTML += `
+    <div class="graphiscore-card">
+    <a href="/graphiscore/${product._id}">
+    <div>
+       <img src="${product.productImage}" alt="Graphiscore__" class="graphiscore-pic">
+       <div class="graphiscore-stars">
+          <div class="rating">
+           <div class="rating-upper">
+             <span>★</span>
+             <span>★</span>
+             <span>★</span>
+             <span>★</span>
+             <span>★</span>
+           </div>
+           <div class="rating-lower">
+             <span>★</span>
+             <span>★</span>
+             <span>★</span>
+             <span>★</span>
+             <span>★</span>
+           </div>
+         </div>
+           <p id="graphiscore_average" >${product.averageRating}</p>
+        </div>
+    </div>
+   <div class="graphiscore-title">
+       <h3>${product.productName}</h3>
+       <div class="rev-rat">
+           <p> ${product.numReviews} Reviews</p>
+           <p> ${product.totalReview} Ratings</p>
+       </div>
+   </div>
+  </a>
+</div>`;
+  });
+  productList.innerHTML = productHTML;
+  document.querySelectorAll(".graphiscore-stars").forEach((productRating) => {
+    productRating.querySelector(".rating-upper").style.width =(parseFloat(
+      productRating.querySelector("#graphiscore_average").textContent) === 5? 100: parseFloat
+      (productRating.querySelector("#graphiscore_average").textContent) * 20) + "%";
+  
+      });
+}
+
+
+try {
+  function filterProducts() {
+    const searchQuery = searchGpu.value.trim().toLowerCase();
+    let filteredProducts = [];
+  
+    if (searchQuery !== "") {
+      filteredProducts = products.filter(function(product) {
+        const productName = product.productName.toLowerCase();
+        
+        return productName.includes(searchQuery);
+      });
+    } else {
+      filteredProducts = products;
+    }
+  
+    if (filteredProducts.length > 0) {
+      renderProducts(filteredProducts);
+    } else {
+      productList.innerHTML = "<p>No products found.</p>";
+    }
+  }
+getProducts();
+searchGpu.addEventListener("input", filterProducts);
+
+
+} catch (error) {}
+
