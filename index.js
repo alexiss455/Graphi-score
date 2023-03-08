@@ -24,7 +24,7 @@ app.use(
   session({
     secret: "Our little secret.",
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 10 // 10 days in milliseconds
     }
@@ -301,6 +301,7 @@ app.get("/usersWhoRated", async (req, res) => {
 
 
 app.get("/review",checkIfNotAuthenticated, (req, res) => {
+  req.session.start();
   var productDprev = [
     {
       productName: "",
