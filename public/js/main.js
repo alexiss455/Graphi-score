@@ -196,7 +196,7 @@ function renderProducts(productsToRender) {
     productHTML += `
     <div class="graphiscore-card">
     <a href="/graphiscore/${product._id}">
-    <div>
+    <div class="graphiscores_">
        <img src="${product.productImage}" alt="Graphiscore__" class="graphiscore-pic">
        <div class="graphiscore-stars">
           <div class="rating">
@@ -256,7 +256,7 @@ try {
     if (filteredProducts.length > 0) {
       renderProducts(filteredProducts);
     } else {
-      productList.innerHTML = "<p>No products found.</p>";
+      productList.innerHTML = "<p>No GPU'S found .😭😭</p>";
     }
   }
 getProducts();

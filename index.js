@@ -301,7 +301,7 @@ app.get("/usersWhoRated", async (req, res) => {
 
 
 app.get("/review",checkIfNotAuthenticated, (req, res) => {
-  req.session.start();
+  
   var productDprev = [
     {
       productName: "",
@@ -357,7 +357,7 @@ app.post("/review", (req, res) => {
 
                 } else {
 
-                  req.flash("success", "Review update! 👏")
+                  req.flash("success", "Successfully update! 🤗")
                   console.log("Review updated!");
                   res.redirect("/graphiscore/" + foundProduct._id);
                   
@@ -381,7 +381,7 @@ app.post("/review", (req, res) => {
 
                 } else {
 
-                  req.flash("success", "Review saved! 😍");
+                  req.flash("success", "Successfully rate! 🤩");
                   console.log("Review saved");
                   res.redirect("/graphiscore/" + foundProduct._id);
 
@@ -650,8 +650,6 @@ app.get('/search_bar', (req, res) => {
 });
   
 
-
-
 app.get("/products", async function(req, res) {
   try {
     const products = await Product.find();
@@ -687,8 +685,6 @@ app.get("/products", async function(req, res) {
         productImage: product.productImage
       });
     }
-
-    console.log(productsWithRating)
     res.json(productsWithRating);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -697,7 +693,11 @@ app.get("/products", async function(req, res) {
 
 
 
+app.get("/about", function(req, res){
 
+  res.render("about")
+
+});
 
 app.listen(3000 || process.env.PORT, function () {
   console.log("Server started on port 3000");
