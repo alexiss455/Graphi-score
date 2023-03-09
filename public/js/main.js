@@ -256,7 +256,7 @@ try {
     if (filteredProducts.length > 0) {
       renderProducts(filteredProducts);
     } else {
-      productList.innerHTML = "<p>No GPU'S found .😭😭</p>";
+      productList.innerHTML = "<p>No GPU'S found.😭😭</p>";
     }
   }
 getProducts();
@@ -264,4 +264,3 @@ searchGpu.addEventListener("input", filterProducts);
 
 
 } catch (error) {}
-

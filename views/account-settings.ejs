@@ -1,8 +1,16 @@
 <%- include('partials/header'); -%>
 
 <div class="content_height">
+
 <main>
     <div class="containers account_container">
+
+
+        <div class="upload_image">
+            <button class="btn btns btn_upload_img">Save</button>
+            <input type="text" class="file-input" placeholder="Upload using link">
+        </div>
+
         <div class="accout_settings">
             <form action="/account-settings" method="post">
             <div class="accont">
@@ -18,14 +26,16 @@
                    <% }else{ %>
                         <img src="/img/My_project1.png" alt="" id="preview-image">
                    <% } %>
-                   
                 </div>
             
-                <!-- <input type="hidden" class="hide_file" name="upload_image"> -->
+                <input type="hidden" class="hide_file" name="upload_image">
+
+
                 <!-- <input type="file" id="file" accept="img/*" class="file-input" disabled> -->
                 <label for="file" class="choose_file"><i class='bx bxs-image-add'></i>Choose Photo</label>
                 <p class="upload_image_link"><i class='bx bx-unlink'></i>Upload using link</p>
-                <input type="text" name="upload_image" class="file-input">
+
+
             </div>
             <div class="account_display">
 

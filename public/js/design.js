@@ -20,6 +20,7 @@ if (navClose) {
 
 if (icons) {
   icons.addEventListener("click", function () {
+
     if(searchBar.style.display === "block"){
       searchBar.style.display = "none"
     }else{
@@ -63,6 +64,7 @@ try {
     //  view input show
      const viewResult = document.getElementById("search-results-review");
      const inputview = document.getElementById("search-product-review"); 
+  
      inputview.addEventListener("click", async function(){
       inputview.value = "";
        if(viewResult === "block"){ 
@@ -83,3 +85,47 @@ try {
      });
   } catch (error) {
   }
+
+
+
+
+  var file_input = document.querySelector(".file-input") 
+  var preview_image = document.querySelector("#preview-image")
+  var hidden_file = document.querySelector(".hide_file")
+  var uploadLink = document.querySelector(".upload_image_link");
+  var upload_image = document.querySelector(".upload_image");
+  
+  uploadLink.addEventListener("click", function(){ 
+    var display = getComputedStyle(upload_image).getPropertyValue("display");
+    file_input.value = "";
+    if(display === "none"){ 
+      upload_image.style.display = "block";
+    } else {
+      upload_image.style.display = "none";  
+    }
+  });
+
+
+
+try {
+
+
+document.addEventListener("click", function(event) {
+  if (!uploadLink.contains(event.target) &&  !upload_image.contains(event.target)) {
+    upload_image.style.display = "none";
+  }
+});
+
+} catch (error) {
+  
+}
+
+document.querySelector(".btn_upload_img").addEventListener("click", function(){
+
+  var val = file_input.value;
+  hidden_file.value = val
+  preview_image.src = val;
+  
+  upload_image.style.display = "none";
+
+})

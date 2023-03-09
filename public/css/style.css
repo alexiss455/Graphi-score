@@ -159,11 +159,20 @@ header {
 }
 
 .btn {
-  padding: 0.5rem 1.5rem;
+  padding: .65rem 1.5rem;
   background-color: var(--btn-color);
   border-radius: 0.4rem;
   color: var(--text-color-backgroud);
   transition: 0.5s;
+  border: none;
+}
+.btns{
+  border: none;
+  outline: none;
+  transition: .4s;
+}
+.btns:active{
+  transform: scale(.8);
 }
 .login {
   outline: 1px solid var(--btn-color);
@@ -386,7 +395,48 @@ header {
   -moz-box-shadow: 0px 0px 9px -4px rgba(0,0,0,0.75);
   overflow: hidden;
 }
-
+.content_subs{
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0px 0px 9px -4px rgba(0,0,0,0.75);
+  -webkit-box-shadow: 0px 0px 9px -4px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 9px -4px rgba(0,0,0,0.75);
+}
+.subs{
+  display: flex;
+  flex-direction: column;
+  font-size: .8rem;
+  padding: 1rem;
+}
+.subs :nth-child(2){
+ margin-top: 1.5rem;
+ margin-bottom: .8rem;
+ padding: .7rem .7rem;
+ border: rgb(179, 179, 179) solid 1px; 
+ border-radius: .25rem;
+}
+.subs :nth-child(3){
+  border: none;
+  border-radius: .25rem;
+  padding: .7rem;
+  background-color: rgb(0, 0, 0);
+  color: white;
+  transition: .4s;
+}
+.subs :nth-child(3):active{
+  transform: scale(.89);
+}
+.subs :nth-child(3):hover{
+  background-color: var(--btn-color);
+}
+.content_subs img{
+  object-fit: cover;
+  object-position: center center;
+  display: flex;
+  height: 100%;
+  max-height: 200px;
+  width: 100%;
+}
 /* login & register */
 .login-form {
   display: flex;
@@ -438,6 +488,13 @@ header {
   box-shadow: 0px 4px 25px rgba(24, 24, 24, 0.521);
   margin-bottom: 2rem;
   transition: 0.5s;
+}
+
+.btn-log:active{
+  transform: scale(.8);
+}
+.btn-footer:active{
+  transform: scale(.8);
 }
 .btn-log:hover {
   background-color: var(--btn-color);
@@ -1103,7 +1160,6 @@ padding: 1rem;
   font-size: 1.25rem;
 }
 .maintenance{
-  margin-top: .25rem;
   text-align: center;
   background-color: #7b7b7b;
 }
@@ -1361,6 +1417,32 @@ padding-top: 1.5rem;
 }
 .abt_name :nth-child(2){
   color: gray;
+}
+/* account settings */
+.upload_image{
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: fixed;
+  margin-top: -25rem;
+  background-color: rgb(255, 255, 255);
+  padding: 2rem 3rem;
+  box-shadow: 0px 0px 14px 2px rgba(0,0,0,0.37);
+  -webkit-box-shadow: 0px 0px 14px 2px rgba(0,0,0,0.37);
+  -moz-box-shadow: 0px 0px 14px 2px rgba(0,0,0,0.37);
+  border-radius: 1rem;
+  display: none;
+}
+.account_container{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.file-input{
+  padding: .5rem;
+  border: 1px solid rgb(212, 212, 212);
 }
 
 
