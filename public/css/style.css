@@ -91,7 +91,7 @@ header {
   width: 100%;
   background-size: cover;
   color: var(--text-color-backgroud);
-  background-position: center;
+  background-position: center center;
   z-index: -1;
 }
 /* footer */
@@ -252,13 +252,19 @@ header {
 .products_link{
   color: black;
 }
+.content_{
+  margin-top: -2rem;
+  border-radius: 2rem 2rem 0 0;
+  padding-top: 4rem;
+  z-index: 10000;
+  background-color: white;
+}
 .rate h3 {
   margin: 1.5rem 0;
   font-size: 1.7rem;
   font-weight: 700;
 }
 .products {
-  margin-top: 4rem;
   display: grid;
   grid-template-columns: 3fr 1fr;
   column-gap: 1rem;
@@ -275,14 +281,9 @@ header {
 .products-card {
   width: 100%;
   background-color: var(--text-color-backgroud);
-  border-radius: .25rem;
   position: relative;
-  margin-bottom: 1rem;
-  overflow: hidden;
   transition: 0.5s;
-  box-shadow: 0px 0px 9px -4px rgba(0,0,0,0.75);
-  -webkit-box-shadow: 0px 0px 9px -4px rgba(0,0,0,0.75);
-  -moz-box-shadow: 0px 0px 9px -4px rgba(0,0,0,0.75);
+
   cursor: pointer;
 }
 .prods-img-hover {
@@ -296,12 +297,12 @@ header {
 }
 .prod-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: .35fr 1fr;
 }
 .prods-cards {
   padding: .65rem;
-  padding-top: .25rem;
-  background-color: white;;
+  background-color: white;
+  border-bottom: 1px solid rgba(223, 223, 223, 0.776);
 }
 .prods-cards:hover {
   background-color: #ececec;
@@ -336,8 +337,12 @@ header {
 }
 .products-content {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  column-gap: 1rem;
+  grid-template-columns: 1fr;
+  overflow: hidden;
+  border-radius: 1rem;
+  box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.38);
+-webkit-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.38);
+-moz-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.38);
 }
 .review-pic {
   position: relative;
@@ -375,7 +380,7 @@ header {
   padding: .75rem;
 }
 .news-grid{
-  border-radius: .25rem;
+  border-radius: 1rem;
   box-shadow: 0px 0px 9px -4px rgba(0,0,0,0.75);
   -webkit-box-shadow: 0px 0px 9px -4px rgba(0,0,0,0.75);
   -moz-box-shadow: 0px 0px 9px -4px rgba(0,0,0,0.75);
@@ -1506,10 +1511,10 @@ padding-top: 1.5rem;
   .rate_review {
     grid-template-columns: 1fr;
   }
-  .products-content {
+  /* .products-content {
     grid-template-columns: 100%;
     column-gap: 1rem;
-  }
+  } */
   .container-login {
     grid-template-columns: 1fr;
     grid-template-rows: 0.5fr 1fr;
@@ -1670,7 +1675,7 @@ padding-top: 1.5rem;
 }
   .containers {
     margin: 0;
-    padding: 0 .5rem;
+    padding: 0;
   }
   .container-login {
     margin: 0;

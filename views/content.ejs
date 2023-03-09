@@ -27,12 +27,16 @@
   </main>
 </section>
 
+
+<div class="content_">
 <main>
   <div class="products containers">
     <div class="rate">
       <h3>Most rate/review GPU products 🔥</h3>
 
       <div class="products-content">
+
+
         <% for (var i = 0; i < mostRated.length; i++) { %>
         <a href="/graphiscore/<%= mostRated[i]._id %>" class="products_link">
           <div class="products-card">
@@ -47,7 +51,7 @@
 
               <div class="prods-cards">
                 <div class="description_container">
-                  <h4><%= mostRated[i].productName.substring(0, 15)%></h4>
+                  <h4><%= mostRated[i].productName%></h4>
 
                   <div class="product-rating">
                     <div class="product__rating">
@@ -80,10 +84,14 @@
                   </div>
                 </div>
               </div>
+
             </div>
           </div>
         </a>
         <% } %>
+
+
+
       </div>
     </div>
     <div class="news">
@@ -109,8 +117,15 @@
           </p>
         </div>
       </div>
+
+      <div>
+        asdasd
+      </div>
     </div>
   </div>
+
+
 </main>
+</div>
 </div>
 <%- include('partials/footer'); -%>
