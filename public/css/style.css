@@ -264,7 +264,7 @@ header {
 .content_{
   margin-top: -2rem;
   border-radius: 2rem 2rem 0 0;
-  padding-top: 4rem;
+  padding-top: 1rem;
   z-index: 10000;
   background-color: white;
 }
@@ -286,6 +286,7 @@ header {
   object-fit: cover;
   overflow: hidden;
   transition: transform 0.4s ease-in-out;
+  transform: scale(.8);
 }
 .products-card {
   width: 100%;
@@ -557,7 +558,7 @@ header {
   font-size: 1rem;
 }
 .review-content {
-  padding: 1.75rem;
+  padding: 1.5rem;
   background-color: var(--text-color-backgroud);
   border-radius: 0.6rem;
   box-shadow: 0px 0px 9px -4px rgba(0,0,0,0.75);
@@ -732,6 +733,7 @@ header {
 .graphiscore-pic{
   display: flex;
   justify-content: center;
+  transform: scale(.85);
 }
 /*------------------- rates and reviews ------------------*/
 
@@ -1785,7 +1787,7 @@ padding-top: 1.5rem;
   padding: 0 1rem;
 }
   .containers {
-    margin: 0;
+    margin: 0 1.25rem;
     padding: 0;
   }
   .container-login {
@@ -1803,10 +1805,20 @@ padding-top: 1.5rem;
     padding-top: 1.5rem;
   }
   .home-content {
-    padding: 2rem 1rem 0rem 2rem;
+    padding: .5rem 1rem 0rem 2rem;
   }
   .profile-link{
     display: flex;
     flex-direction: column;
+  }
+  .content_{
+    padding-top: 0;
+  }
+  .nav-container{
+    margin: 0;
+  }
+  .review-container{
+    margin: 0;
+    padding: 0 1.35rem;
   }
 }
