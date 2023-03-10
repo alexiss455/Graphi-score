@@ -1,16 +1,18 @@
 <%- include('partials/header'); -%>
 
-<div class="content_height">
+<div class="accont_settings">
 
+</div>
+<div class="content_height">
 <main>
     <div class="containers account_container">
 
-
+        <!-- upload image using link -->
         <div class="upload_image">
             <button class="btn btns btn_upload_img">Save</button>
             <input type="text" class="file-input" placeholder="Upload using link">
         </div>
-
+        
         <div class="accout_settings">
             <form action="/account-settings" method="post">
             <div class="accont">
@@ -27,17 +29,13 @@
                         <img src="/img/My_project1.png" alt="" id="preview-image">
                    <% } %>
                 </div>
-            
+
                 <input type="hidden" class="hide_file" name="upload_image">
-
-
-                <!-- <input type="file" id="file" accept="img/*" class="file-input" disabled> -->
-                <label for="file" class="choose_file"><i class='bx bxs-image-add'></i>Choose Photo</label>
+    
+                <label for="file" class="choose_file"> <i class='bx bxs-image-add'></i> Choose Photo </label>
                 <p class="upload_image_link"><i class='bx bx-unlink'></i>Upload using link</p>
-
-
-            </div>
-            <div class="account_display">
+                </div>
+                <div class="account_display">
 
                 <h3>Display Name</h3>
                 <input type="text" name="displayName" id="" value="<%= currentUser.user.displayName %>">

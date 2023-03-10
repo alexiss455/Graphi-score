@@ -13,6 +13,7 @@ const fs = require("fs-extra");
 const multer = require('multer');
 // alert
 const flash = require('connect-flash');
+const MongoStore = require('connect-mongo')(session);
 
 app.use(flash());
 app.use(express.json());
@@ -20,13 +21,20 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
+const store = new MongoStore({
+  mongooseConnection: mongoose.connection
+});
+
 app.use(
   session({
     secret: "Our little secret.",
     resave: false,
     saveUninitialized: false,
+    store: store,
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 10 // 10 days in milliseconds
+      maxAge: 1000 * 60 * 60 * 24, 
+      secure: false, 
+      httpOnly: true, 
     }
   })
 );
@@ -66,9 +74,9 @@ const productSchema = new mongoose.Schema({
 const Product = mongoose.model("Product", productSchema);
 
 const items = new Product({
-  productName: "GV-N4080GAMING-OC-16GD",
-  productImage: "",
-  description: "The GV-N4080GAMING-OC-16GD is a high-end graphics card made by Gigabyte, designed for demanding gaming and professional applications. It features NVIDIA's latest Ampere architecture with 16GB of GDDR6 memory and is equipped with Gigabyte's WINDFORCE 3X cooling system, which includes three unique blade fans and alternate spinning. The OC in the name indicates that the card is factory overclocked for higher performance out of the box. This graphics card also supports various advanced features such as Ray Tracing and DLSS for enhanced realism and image quality. Overall, the GV-N4080GAMING-OC-16GD is a powerful graphics card that delivers excellent performance for the most demanding applications."
+  productName: "Gigabyte GeForce RTX 4080 16GB AERO OC",
+  productImage: "https://assets.nvidia.partners/images/png/GV-N4080AERO-OC-16GD.png",
+  description: "The GPU features 16GB of GDDR6X VRAM and a 256-bit memory interface, offering improved performance and power efficiency over the previous Ampere-based generation. The front panel of the card features a variety of outputs, such as DisplayPort 1.4a and HDMI 2.1."
 });
 // items.save(function(err){
 //  if(!err){
@@ -202,14 +210,12 @@ app.post("/login", function (req, res, next) {
       console.log(err);
       next(err);
     } else {
-
       passport.authenticate("local", { failureRedirect: "/login", failureFlash: true })(req, res, function () {
           req.session.prof = true;
           req.session.storeName = req.user.displayName;
           req.flash("success", "You have successfully logged in!");
           res.redirect("/");
         });
-
     }
   }, function (err) { // Add error flash message
     req.flash("error", "Invalid username or password!");
@@ -218,10 +224,8 @@ app.post("/login", function (req, res, next) {
 });
 
 app.get("/register", checkAuthenticated , function (req, res) {
-
     const errors = req.flash("error") || [];
     res.render("register", { errors });
-
 });
 
 app.post("/register", function (req, res) {
@@ -267,7 +271,6 @@ app.post("/search", async (req, res) => {
   }
 });
 
-
 app.get("/usersWhoRated", async (req, res) => {
   const productId = req.query.prodReview;
   const result = await ReviewRate.aggregate([
@@ -298,7 +301,6 @@ app.get("/usersWhoRated", async (req, res) => {
   res.json(resultObj);
 
 });
-
 
 app.get("/review",checkIfNotAuthenticated, (req, res) => {
   
@@ -586,7 +588,6 @@ app.get("/profile", checkIfNotAuthenticated, (req, res) => {
 
 });
 
-
 app.get("/profile/:_id", function(req, res) {
   let getUrl = req.params._id;
   console.log(getUrl)
@@ -620,10 +621,12 @@ app.post('/account-settings', (req, res) => {
   var userId = req.user._id;
   var upload_img = req.body.upload_image;
 
+  console.log(upload_img);
+
   // Create or update the user in the database
   User.findOneAndUpdate({ _id: userId }, { displayName: displayName, bio: displayBio, profilePicture: upload_img}, { upsert: true })
     .then((updatedUser) => {
-      console.log('User updated:', updatedUser);
+      console.log('User updated:');
       res.redirect('/profile');
     })
     .catch((error) => {

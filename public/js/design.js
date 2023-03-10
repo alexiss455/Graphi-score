@@ -86,19 +86,21 @@ try {
   } catch (error) {
   }
 
-
-
-
   var file_input = document.querySelector(".file-input") 
   var preview_image = document.querySelector("#preview-image")
   var hidden_file = document.querySelector(".hide_file")
+
+
   var uploadLink = document.querySelector(".upload_image_link");
   var upload_image = document.querySelector(".upload_image");
-  
+  var accout_op = document.querySelector(".accont_settings")
+try {
+
   uploadLink.addEventListener("click", function(){ 
     var display = getComputedStyle(upload_image).getPropertyValue("display");
     file_input.value = "";
     if(display === "none"){ 
+      accout_op.style.display = "block"
       upload_image.style.display = "block";
     } else {
       upload_image.style.display = "none";  
@@ -106,26 +108,35 @@ try {
   });
 
 
-
-try {
-
-
 document.addEventListener("click", function(event) {
   if (!uploadLink.contains(event.target) &&  !upload_image.contains(event.target)) {
     upload_image.style.display = "none";
+    accout_op.style.display = "none"
+  }
+});
+
+
+
+var imgs_upload = document.querySelector("#preview-image")
+document.querySelector(".btn_upload_img").addEventListener("click", async function(){
+  try {
+    const response = await fetch(file_input.value);
+    if (response.ok) {
+      const val = file_input.value;
+      // hidden_file.value = val;
+      console.log( hidden_file.value = val)
+      preview_image.src = val;
+      upload_image.style.display = "none";
+      accout_op.style.display = "none"
+    } else {
+        accout_op.style.display = "none"
+        upload_image.style.display = "none";
+        imgs_upload.setAttribute("src", "/img/My_project1.png")
+    }
+  } catch (error) {
   }
 });
 
 } catch (error) {
-  
 }
 
-document.querySelector(".btn_upload_img").addEventListener("click", function(){
-
-  var val = file_input.value;
-  hidden_file.value = val
-  preview_image.src = val;
-  
-  upload_image.style.display = "none";
-
-})
