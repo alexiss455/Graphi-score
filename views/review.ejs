@@ -1,6 +1,7 @@
 <%- include('partials/header'); -%>
 <div class="content_height">
 <section class="section-content-review">
+
     <% if (errors) { %>
         <% errors.forEach(error => { %>
           <script>
@@ -22,10 +23,10 @@
       <form action="/review" method="post">
         <div class="search-product-review">
 
-            <% if( productPrev[0].productName === ""){ %>
+            <% if( found[0].productName === ""){ %>
                 <input type="text" value="" placeholder="Searh your favourite GUP'S " id="search-product-review" name="review_prod_name" autocomplete="off" required>
             <% }else{ %>
-                <input type="text" value="<%= productPrev[0].productName %>" placeholder="<%= productPrev[0].productName %>" id="search-product-review" name="review_prod_name" autocomplete="off" required>
+                <input type="text" value="<%= found[0].productName %>" placeholder="<%= found[0].productName %>" id="search-product-review" name="review_prod_name" autocomplete="off" required>
             <% } %>
             
             <div class="input-result-search"> 
@@ -70,17 +71,17 @@
 <div class="review-item">
         <div class="review-card">
             
-            <% if(productPrev[0].productImage === ""){ %>
+            <% if(found[0].productImage === ""){ %>
                     <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif?20151024034921" alt="review-img" class="review-pic">
                 <% }else{ %>
-                    <img src="<%= productPrev[0].productImage %>" alt="review-img" class="review-pic">
+                    <img src="<%= found[0].productImage %>" alt="review-img" class="review-pic">
             <% } %>
             
             <div class="prod-review">
                 <div class="product-review-container">
 
-                    <% if( productPrev[0].productName === "" ){ %>
-                        <h1 class="text_Name"><%= productPrev[0].productName %></h1>
+                    <% if( found[0].productName === "" ){ %>
+                        <h1 class="text_Name"><%= found[0].productName %></h1>
                     <% }else{ %> 
                         <h1 class="text_Name"></h1>
                     <% } %>
@@ -88,7 +89,7 @@
                 <div class="stars-review">
                     <div class="stars">
 
-                        <% if ( productPrev[0].average === "" ) { %>
+                        <% if ( resultObj.avgRating === "" ) { %>
                             <div class="review_average_star">
                                 <div class="rating">
                                     <div class="rating-upper">
@@ -127,23 +128,23 @@
                                     </div>
                                   </div>
                             </div>                            
-                            <p class="arverage" id ="average"><%= productPrev[0].average.toFixed(1) %></p>
+                            <p class="arverage" id ="average"><%= resultObj.avgRating %></p>
                         <% } %>
 
                     </div>      
                 </div>
                 <div class="review-ratings">
 
-                    <% if( productPrev[0].ratings === "" ){ %>
+                    <% if( resultObj.avgRating === "" ){ %>
                         <p class="ratings"></p>
                     <% }else{ %>
-                        <p class="ratings"><%= productPrev[0].ratings %> Ratings</p>
+                        <p class="ratings"><%= resultObj.rateCount %> Ratings</p>
                     <% } %>
                     
-                    <% if( productPrev[0].totalReviews === "" ){ %>
+                    <% if( resultObj.reviewCount === "" ){ %>
                         <p class="reviews"></p>
                     <% }else{ %>
-                        <p class="reviews"><%= productPrev[0].totalReviews %> Reviews</p>
+                        <p class="reviews"><%= resultObj.reviewCount %> Reviews</p>
                     <% } %>
 
                 </div>

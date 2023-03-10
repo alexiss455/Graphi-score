@@ -120,14 +120,14 @@ try {
     });
 } catch (error) {}
 
-
-
-
-
-
-
 var searchUsers = document.querySelector(".input-searchs");
 var search_Result_main = document.querySelector(".search_user_result");
+document.addEventListener("click", function(event) {
+  if (!searchUsers.contains(event.target) &&  !search_Result_main.contains(event.target)) {
+    search_Result_main.style.display = "none";
+    searchUsers.value = ""
+  }
+});
 
 searchUsers.addEventListener('input', () => {
   const searchTerm = searchUsers.value.trim();
@@ -139,29 +139,38 @@ searchUsers.addEventListener('input', () => {
       .then(users => {
         // Clear the search results
         search_Result_main.innerHTML = '';
-
+      
         // Render the search results
-        users.forEach(user => {
-          search_Result_main.style.display = "flex";
-          const userLink = document.createElement('a');
-          const userText = document.createElement('p');
-          userLink.href = "/profile/" + user._id; // Replace with your own URL format
-          userText.textContent = user.displayName;
-
-          if (user.profilePicture) {
-            const primgSearch = document.createElement('img');
-            primgSearch.src = user.profilePicture;
-            userLink.appendChild(primgSearch);
-          }
-          else {
-            const primgSearch = document.createElement('img');
-            primgSearch.src = "/img/My_project1.png";
-            userLink.appendChild(primgSearch);
-          }           
-          userLink.appendChild(userText);
-          search_Result_main.appendChild(userLink);
-        });                      
-      })
+        if (users.length === 0) {
+          // Add a "Not found" message to the search results
+          const notFoundMessage = document.createElement('p');
+          notFoundMessage.style.color = "white";
+          notFoundMessage.style.textAlign = "center"
+          notFoundMessage.style.padding = ".5rem "
+          notFoundMessage.textContent = 'No users found😥';
+          search_Result_main.appendChild(notFoundMessage);
+        } else {
+          users.forEach(user => {
+            search_Result_main.style.display = "flex";
+            const userLink = document.createElement('a');
+            const userText = document.createElement('p');
+            userLink.href = "/profile/" + user._id; // Replace with your own URL format
+            userText.textContent = user.displayName;
+      
+            if (user.profilePicture) {
+              const primgSearch = document.createElement('img');
+              primgSearch.src = user.profilePicture;
+              userLink.appendChild(primgSearch);
+            } else {
+              const primgSearch = document.createElement('img');
+              primgSearch.src = "/img/My_project1.png";
+              userLink.appendChild(primgSearch);
+            }           
+            userLink.appendChild(userText);
+            search_Result_main.appendChild(userLink);
+          });                      
+        }
+      })      
       .catch(error => {
         console.error(error);
         search_Result_main.innerHTML = 'Error searching for users';
@@ -171,12 +180,6 @@ searchUsers.addEventListener('input', () => {
     search_Result_main.innerHTML = '';
   }
 });
-
-
-
-
-
-
 
 const searchGpu = document.getElementById("search-product-gpu");
 const productList = document.querySelector(".graphiscore-content");

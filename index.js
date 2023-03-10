@@ -9,24 +9,21 @@ const session = require("express-session");
 const passport = require("passport");
 // express
 const app = express();
-const fs = require("fs-extra");
-const multer = require('multer');
 // alert
 const flash = require('connect-flash');
-const MongoStore = require('connect-mongo')(session);
 
 app.use(flash());
 app.use(express.json());
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
-
+// mongo session
+const MongoStore = require('connect-mongo')(session);
 const store = new MongoStore({
   mongooseConnection: mongoose.connection
 });
 
-app.use(
-  session({
+app.use(session({
     secret: "Our little secret.",
     resave: false,
     saveUninitialized: false,
@@ -36,8 +33,8 @@ app.use(
       secure: false, 
       httpOnly: true, 
     }
-  })
-);
+  }));
+
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -85,6 +82,8 @@ const items = new Product({
 //   console.log(err)
 //  }
 // });
+
+
 
 
 // review_rate collection
@@ -304,17 +303,19 @@ app.get("/usersWhoRated", async (req, res) => {
 
 app.get("/review",checkIfNotAuthenticated, (req, res) => {
   
-  var productDprev = [
+  var found = [
     {
       productName: "",
       productImage: "",
-      average: "",
-      ratings: "",
-      totalReviews: "",
     },
   ];
+  var resultObj = {
+    avgRating: "",
+    rateCount: "",
+    reviewCount: ""
+  }
     const errors = req.flash("error") || [];
-    res.render("review", { productPrev: productDprev, errors });
+    res.render("review", { found: found, resultObj: resultObj, errors });
 });
 
 // review route
@@ -358,11 +359,9 @@ app.post("/review", (req, res) => {
                   res.redirect(req.headers.referer || "/review")
 
                 } else {
-
                   req.flash("success", "Successfully update! 🤗")
                   console.log("Review updated!");
                   res.redirect("/graphiscore/" + foundProduct._id);
-                  
                 }
               });
 
@@ -397,55 +396,46 @@ app.post("/review", (req, res) => {
   }
 });
 
+app.get("/review/:_id", checkIfNotAuthenticated, async function (req, res) {
 
-app.get("/review/:_id", checkIfNotAuthenticated, function (req, res) {
-
-  const getUrl = req.params._id;
-  ReviewRate.aggregate([
-    {
-      $match: { product: mongoose.Types.ObjectId(getUrl) }
-    },
-    {
-      $group: {
-        _id: "$product",
-        count: { $sum: { $cond: [{ $ne: ["$review", ""] }, 1, 0] } },
-        average: { $avg: "$rating" },
-        users: { $addToSet: "$userReview" },
-      }
-    },
-    {
-      $lookup: {
-        from: "products",
-        localField: "_id",
-        foreignField: "_id",
-        as: "product"
-      }
-    },
-    {
-      $unwind: "$product"
-    },
-    {
-      $project: {
-        _id: "$product._id",
-        productName: "$product.productName",
-        productImage: "$product.productImage",
-        average: { $round: ["$average", 1] },
-        totalReviews: { $sum: "$count" },
-        ratings: { $size: "$users" },
-        reviews: 1
-      }
+  const productId = req.params._id;
+  const result = await ReviewRate.aggregate([
+  { $match: { 'product': mongoose.Types.ObjectId(productId) } },
+  {
+    $group: {
+      _id: '$user',
+      hasReview: { $sum: { $cond: [{ $ne: ['$review', ''] }, 1, 0] } },
+      hasRating: { $sum: { $cond: [{ $ne: ['$rating', ''] }, 1, 0] } },
+      avgRating: { $avg: '$rating' },
     }
-  ])
-  .exec((err, productPrev) => {
-    if (err) {
-      console.error(err);
-    } else {
+  },
+  {
+    $group: {
+      _id: null,
+      reviewCount: { $sum: '$hasReview' },
+      rateCount: { $sum: '$hasRating' },
+      avgRating: { $avg: '$avgRating' },
+    }
+  }
+  ]).exec();
+  if (result[0] && result[0].avgRating) {
+    result[0].avgRating = parseFloat(result[0].avgRating.toFixed(1));
+  }
+  const resultObj = result[0] || { reviewCount: 0, rateCount: 0, avgRating: 0 };
+
+  Product.find({_id: productId},function(err, found){
+    if(!err){
+      console.log(found);
+      console.log(resultObj);
+
       const errors = req.flash("error") || [];
-      res.render("review", { productPrev: productPrev, errors});
+      res.render("review", {resultObj: resultObj, found: found, errors})
+    }else{
+      console.log(err)
     }
-  });
-
+  }); 
 });
+
 
 app.get("/graphiscore/:_id", (req, res) => {
   let getUrl = req.params._id;
@@ -537,7 +527,6 @@ app.get("/graphiscore/:_id", (req, res) => {
     });
 });
 
-
 async function account(id) {
   try {
     const user = await User.findById(id)
@@ -574,7 +563,6 @@ async function account(id) {
     console.error(err)
   }
 }
-
 app.get("/profile", checkIfNotAuthenticated, (req, res) => {
     const userId = req.user._id;
     console.log(userId)
@@ -585,8 +573,8 @@ app.get("/profile", checkIfNotAuthenticated, (req, res) => {
       console.log(err);
       res.redirect('/');
     });
-
 });
+
 
 app.get("/profile/:_id", function(req, res) {
   let getUrl = req.params._id;
@@ -652,7 +640,6 @@ app.get('/search_bar', (req, res) => {
     });
 });
   
-
 app.get("/products", async function(req, res) {
   try {
     const products = await Product.find();
@@ -693,8 +680,6 @@ app.get("/products", async function(req, res) {
     res.status(500).json({ message: err.message });
   }
 });
-
-
 
 app.get("/about", function(req, res){
 

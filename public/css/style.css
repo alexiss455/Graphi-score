@@ -303,7 +303,7 @@ header {
   background-color: #000000;
 }
 .pic-products:hover {
-  transform: scale(1.15);
+  transform: scale(1);
 }
 .prod-grid {
   display: grid;
@@ -503,6 +503,9 @@ header {
 #logs {
   font-size: 0.8rem;
 }
+#logs a{
+  color: gray;
+}
 .pics-log {
   background-image: url("/img/slider1.jpeg");
   background-size: cover;
@@ -639,7 +642,6 @@ header {
   background-color: #000000;
 }
 /* GraphisCore */
-
 .graphiscore {
   padding-top: 4rem;
 }
@@ -664,6 +666,7 @@ header {
   padding-left: 10px;
   font-size: 1rem;
   border-radius: 0.5rem;
+  font-size: 1.35rem;
 }
 .graphiscore-search {
   padding: 1rem;
@@ -693,9 +696,7 @@ header {
   padding: 1rem;
   padding-bottom: 1rem;
 }
-.graphiscore-title h3:hover{
-  color: rgb(47, 85, 0);
-}
+
 .graphiscore-stars {
   position: absolute;
   display: flex;
@@ -726,9 +727,16 @@ header {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  transition: .2s;
 }
 .graphiscore-card a{
   color: black;
+}
+.graphiscore-card:hover{
+  background-color: rgb(25, 107, 0);
+}
+.graphiscore-card a:hover{
+  color: white;
 }
 .graphiscore-pic{
   display: flex;
@@ -881,6 +889,9 @@ padding: 1rem;
   width: 900px;
   margin: auto;
   margin-bottom: 2rem;
+}
+.rates_reviews a{
+  color: rgb(37, 37, 37);
 }
 .review-comment {
   padding: 1rem 1rem 3rem;
@@ -1161,10 +1172,6 @@ padding: 1rem;
 .profile_icons{
   font-size: 1.25rem;
 }
-.maintenance{
-  text-align: center;
-  background-color: #7b7b7b;
-}
 /* account settings */
 .upload_image_link{
   background-color: black;
@@ -1389,7 +1396,6 @@ row-gap: .4rem;
   display: flex;
   align-items: end;
 }
-
 .about_team{
   margin: 3.5rem;
   text-align: center;
