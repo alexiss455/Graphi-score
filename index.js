@@ -71,17 +71,18 @@ const productSchema = new mongoose.Schema({
 const Product = mongoose.model("Product", productSchema);
 
 const items = new Product({
-  productName: "Gigabyte GeForce RTX 4080 16GB AERO OC",
-  productImage: "https://assets.nvidia.partners/images/png/GV-N4080AERO-OC-16GD.png",
-  description: "The GPU features 16GB of GDDR6X VRAM and a 256-bit memory interface, offering improved performance and power efficiency over the previous Ampere-based generation. The front panel of the card features a variety of outputs, such as DisplayPort 1.4a and HDMI 2.1."
+  productName: "Zotac GAMING GeForce RTX 3060 Ti Twin Edge OC LHR",
+  productImage: "https://assets.nvidia.partners/images/png/zt-a30610h-10mlhr.png",
+  description: "The all-new generation of ZOTAC GAMING GeForce GTX graphics cards are here. Based on the new NVIDIA Turing architecture, it’s packed with GDDR6 ultra-fast memory. Get ready to get fast and game strong."
 });
-// items.save(function(err){
-//  if(!err){
-//   console.log("success")
-//  }else{
-//   console.log(err)
-//  }
-// });
+
+items.save(function(err){
+ if(!err){
+  console.log("success")
+ }else{
+  console.log(err)
+ }
+});
 
 
 
@@ -172,7 +173,7 @@ app.get("/", function (req, res) {
       $sort: { ratings: -1, count: -1 },
     },
     {
-      $limit: 5,
+      $limit: 10,
     },
   ]).exec(function (err, results) {
     if (err) {

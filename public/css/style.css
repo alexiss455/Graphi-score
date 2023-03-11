@@ -9,8 +9,8 @@
 :root {
   /*========== Colors ==========*/
   /*Color mode HSL(hue, saturation, lightness)*/
-  --first-color: hsl(0, 0%, 0%);
-  --text-color: hsl(0, 0%, 95%);
+  --first-color: #030303;
+  --text-color: hsl(0, 0%, 80%);
   --text-color-backgroud: hsl(0, 0%, 100%);
   --text-color-hover: rgba(223, 223, 223, 0.836);
   --btn-color: rgb(17, 85, 0);
@@ -92,6 +92,7 @@ header {
   color: var(--text-color-backgroud);
   padding: 2rem 0;
   text-align: center;
+  color: rgb(203, 203, 203);
 }
 .footer-icons {
   margin: 0 3rem;
@@ -101,12 +102,12 @@ header {
   color: var(--text-color-backgroud);
 }
 .footer-icons a {
-  color: var(--text-color-backgroud);
+  color: rgb(203, 203, 203);
   font-size: 0.9rem;
   transition: 0.4s;
 }
 .footer-icons a:hover {
-  color: var(--text-color-hover);
+  color: white;
 }
 .footer-links ul {
   display: flex;
@@ -132,7 +133,7 @@ header {
   border-radius: 0.5rem;
   margin-top: 2rem;
   transition: 0.7s;
-  outline: 1px solid var(--btn-color);
+  outline: 1px solid gray;
   color: var(--text-color-backgroud);
   border: none;
 }
@@ -288,7 +289,7 @@ header {
 .content_animation_back{
   width:  20rem;
   height: 330px;
-  background-color: rgb(43, 255, 0);
+  background-color: rgb(25, 151, 0);
   border-radius: 2rem;
   rotate: -12deg;
   animation: contentdelay1 2s  linear infinite;
@@ -359,13 +360,18 @@ header {
 }
 .pic-products {
   width: 100%;
+  max-width: 300px;
   height: 100%;
+  max-height: 200px;
   position: relative;
   object-position: center;
   object-fit: cover;
   overflow: hidden;
   transition: transform 0.4s ease-in-out;
   transform: scale(.8);
+  margin: auto;
+  display: flex;
+  justify-content: center;
 }
 .products-card {
   width: 100%;
@@ -817,9 +823,12 @@ header {
   color: white;
 }
 .graphiscore-pic{
+  max-width: 300px;
+  max-height: 400px;
   display: flex;
   justify-content: center;
   transform: scale(.85);
+  margin: auto;
 }
 /*------------------- rates and reviews ------------------*/
 
@@ -1229,7 +1238,10 @@ padding: 1rem;
 }
 .activty_img{
   display: flex;
-  transition: .4s;  
+  transition: .4s; 
+  max-width: 230px;
+  max-height: 400px;
+  margin: auto;
 }
 .activty_img:hover{
   transform: scale(.85);
@@ -1556,12 +1568,15 @@ padding-top: 1.5rem;
 .accont_settings{
   z-index: 99;
   width: 100%;
-  height: 116%;
+  height: 100%;
   position: absolute;
   background-color: rgba(161, 161, 161, 0.551);
   display: none;
 }
-
+.accont_settings_height{
+  margin-bottom: 0;
+  padding-bottom: 6rem;
+}
 /* media querys section */
 @media only screen and (max-width: 1380px) {
   .products {
@@ -1878,7 +1893,7 @@ padding-top: 1.5rem;
     border-radius: 0 0 1rem 1rem;
   }
   .activty_img{
-    transform: scale(.8);
+    transform: scale(.95);
   }
   .about_team{
     font-size: 1.5rem;
@@ -1924,6 +1939,13 @@ padding-top: 1.5rem;
   .home-content h4{
     padding: 0;
   }
+  .pic-products {
+    transform: scale(1);
+  }
+  .pic-products:hover {
+    transform: scale(.8);
+  }
+  
 }
 
 .skeleton{
