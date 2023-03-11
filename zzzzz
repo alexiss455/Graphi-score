@@ -1,0 +1,64 @@
+try {
+  searchInput.addEventListener('click', async () => {
+    if (ifclickHide === "") {
+      searchResults.style.display = "block";
+    }
+    // If the search review is clicked, the value will be reset
+    searchInput.value = "";
+    searchInput.dispatchEvent(new Event('input'));  
+  });
+
+  searchInput.addEventListener('input', async () => {
+    const searchTerm = searchInput.value.trim();
+    
+    let url;
+    if (searchTerm === '') {
+      url = '/allproducts';
+    } else {
+      url = `/search?q=${searchTerm}`;
+    }
+    
+    const response = await fetch(url);
+    const products = await response.json();
+    
+    const resultsHtml = products.map(product => `<p class="product-result" data-product-id="${product._id}">${product.productName}</p>`).join('');
+    searchResults.innerHTML = resultsHtml;
+
+    const productResults = document.querySelectorAll('.product-result');
+    productResults.forEach(productResult => {
+      productResult.addEventListener('click', async () => {
+        // get id from frontend to backend review and 
+        const productId = productResult.getAttribute('data-product-id');
+        const response = await fetch(`/review-count?id=${productId}`);
+        // return the value to display
+        const json = await response.json();
+        reviewContainer.querySelector("#ratings").textContent = `${json.rateCount} Ratings`;
+        reviewContainer.querySelector("#reviews").textContent = `${json.reviewCount} Reviews`;
+        const average = reviewContainer.querySelector("#av").textContent = `${json.avgRating}`;
+        // average star
+        const ratingUpper4 = document.querySelectorAll("#av");
+        const ratingsUpper4 = document.querySelectorAll(".star-rating-review .rating-upper");
+        StarAverageRating(ratingsUpper4, ratingUpper4);
+
+        const productName = productResult.textContent;
+        const product = products.find(p => p.productName === productName);
+        const productImage = product.productImage;
+        reviewContainer.querySelector('h3').textContent = productName;
+        const img = reviewContainer.querySelector("img");
+        img.setAttribute('src', `data:image/png;base64,${productImage}`);
+        img.setAttribute('alt', productName); 
+      
+        searchInput.setAttribute('placeholder', productName);  
+        searchInput.value = searchInput.placeholder;
+
+        if (ifclickHide === "") {
+          searchResults.style.display = "none";
+        } 
+      });
+    });
+  });
+
+
+
+  } catch (error) {
+}

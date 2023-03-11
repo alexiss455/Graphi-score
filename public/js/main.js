@@ -6,6 +6,8 @@ const avrg = document.querySelector(".arverage");
 const viewResult = document.getElementById("search-results-review");
 const inputView = document.getElementById("search-product-review");
 const avg = document.querySelector(".review_average_star");
+
+
 const updateSearchResults = async (query) => {
   try {
     const response = await fetch("/search", {
@@ -29,9 +31,7 @@ const updateSearchResults = async (query) => {
         inputView.value = product.productName;
         viewResult.style.display = "none";
 
-        const usersWhoRated = await fetch(
-          `/usersWhoRated?prodReview=${product._id}`
-        );
+        const usersWhoRated = await fetch(`/usersWhoRated?prodReview=${product._id}`);
         const ratingData = await usersWhoRated.json();
         avrg.innerHTML = ratingData.avgRating;
         rating.innerHTML = ratingData.rateCount + " Ratings";
@@ -41,9 +41,7 @@ const updateSearchResults = async (query) => {
           avg.style.display = "block";
         } catch (error) {}
         document.querySelector(".rating-upper").style.width =
-          (parseFloat(avrg.textContent) === 5
-            ? 100
-            : parseFloat(avrg.textContent) * 20) + "%";
+          (parseFloat(avrg.textContent) === 5 ? 100 : parseFloat(avrg.textContent) * 20) + "%";
       });
 
       viewResult.appendChild(p);
@@ -59,17 +57,33 @@ try {
   });
 
   inputView.addEventListener("input", async (event) => {
-
     const query = event.target.value.trim();
     if (query) {
       viewResult.style.display = "block";
       await updateSearchResults(query);
     } else {
-      viewResult.style.display = "none";
+      await updateSearchResults("");
     }
   });
   
 } catch (error) {}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 try {
   // homecontent star Average
@@ -120,6 +134,9 @@ try {
     });
 } catch (error) {}
 
+
+
+
 var searchUsers = document.querySelector(".input-searchs");
 var search_Result_main = document.querySelector(".search_user_result");
 document.addEventListener("click", function(event) {
@@ -133,6 +150,7 @@ searchUsers.addEventListener('input', () => {
   const searchTerm = searchUsers.value.trim();
 
   if (searchTerm) {
+
     // Make an AJAX request to the server to search for users
     fetch(`/search_bar?displayName=${encodeURIComponent(searchTerm)}`)
       .then(response => response.json())
@@ -236,7 +254,6 @@ function renderProducts(productsToRender) {
     productRating.querySelector(".rating-upper").style.width =(parseFloat(
       productRating.querySelector("#graphiscore_average").textContent) === 5? 100: parseFloat
       (productRating.querySelector("#graphiscore_average").textContent) * 20) + "%";
-  
       });
 }
 
@@ -255,7 +272,7 @@ try {
     } else {
       filteredProducts = products;
     }
-  
+
     if (filteredProducts.length > 0) {
       renderProducts(filteredProducts);
     } else {

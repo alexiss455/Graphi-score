@@ -90,7 +90,6 @@ try {
   var preview_image = document.querySelector("#preview-image")
   var hidden_file = document.querySelector(".hide_file")
 
-
   var uploadLink = document.querySelector(".upload_image_link");
   var upload_image = document.querySelector(".upload_image");
   var accout_op = document.querySelector(".accont_settings")
@@ -107,15 +106,12 @@ try {
     }
   });
 
-
 document.addEventListener("click", function(event) {
   if (!uploadLink.contains(event.target) &&  !upload_image.contains(event.target)) {
     upload_image.style.display = "none";
     accout_op.style.display = "none"
   }
 });
-
-
 
 var imgs_upload = document.querySelector("#preview-image")
 document.querySelector(".btn_upload_img").addEventListener("click", async function(){

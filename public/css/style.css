@@ -3,7 +3,9 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  scroll-behavior: smooth;
 }
+
 :root {
   /*========== Colors ==========*/
   /*Color mode HSL(hue, saturation, lightness)*/
@@ -85,14 +87,19 @@ header {
 }
 /* Slider section */
 .section-content {
-  background-image: url("/img/sllide3.jpg");
+  background-image: url("https://media1.giphy.com/media/qN8G1i9Q0JzhYHZGvz/giphy.gif?cid=ecf05e47jak7lcbeye7kkue3ni2mocbaa9smk6lolbgqbp9r&rid=giphy.gif&ct=g");
   background-repeat: no-repeat;
-  height: 320px;
+  height: 350px;
   width: 100%;
-  background-size: cover;
-  color: var(--text-color-backgroud);
+  background-size: 100% 100%;
   background-position: center center;
+  color: var(--text-color-backgroud); 
+  background-color: #7b7b7b;
   z-index: -1;
+}
+
+.content_browse{
+  margin-top: 1rem;
 }
 /* footer */
 .foot {
@@ -257,6 +264,26 @@ header {
 .home-content h4 {
   padding-top: 1rem;
 }
+.content_browse{
+  display: flex;
+  align-items: center;
+  column-gap: .45rem;
+  animation: bounce 1s infinite;
+  color: white;
+}
+
+@keyframes bounce{
+  50%{
+    transform: translateY(-5px);
+  }
+  75%{
+    transform: translateY(-1.5px);
+  }
+  100%{
+    transform: translateY(0px);
+  }
+}
+
 /* products */
 .products_link{
   color: black;
@@ -1192,7 +1219,7 @@ padding: 1rem;
 }
 .accout_settings{
   box-shadow: 0px 0px 14px 2px rgba(0,0,0,0.37);
-  -webkit-box-shadow: 0px 0px 14px 2px rgba(0,0,0,0.37);
+  -webkit-box-shadow: 0px 0px 2px 1px rgb(0 0 0 / 11%);
   -moz-box-shadow: 0px 0px 14px 2px rgba(0,0,0,0.37);
   padding: 1.5rem; 
   border-radius: .25rem;
@@ -1611,6 +1638,12 @@ padding-top: 1.5rem;
 }
 
 @media only screen and (max-width: 885px) {
+  .home-content{
+    padding-top: 1.5rem;
+  }
+  .profile_settings{
+    box-shadow: none;
+  }
   .about_teams{
     grid-template-columns: 1fr;
   }
@@ -1660,6 +1693,9 @@ padding-top: 1.5rem;
   }
 }
 @media only screen and (max-width: 530px) { 
+  .home-content{
+    padding: 1rem;
+  }
   .about_description :nth-child(1){
    font-size: 2.5rem;
   }
@@ -1783,6 +1819,15 @@ padding-top: 1.5rem;
 
 }
 @media only screen and (max-width: 410px) {
+  .profile_activty_img {
+    border-radius: 1rem 1rem 0 0;
+  }
+  .profile_activty_description{
+    border-radius: 0 0 1rem 1rem;
+  }
+  .activty_img{
+    transform: scale(.8);
+  }
   .about_team{
     font-size: 1.5rem;
   }
@@ -1810,9 +1855,6 @@ padding-top: 1.5rem;
   .section-content-review {
     padding-top: 1.5rem;
   }
-  .home-content {
-    padding: .5rem 1rem 0rem 2rem;
-  }
   .profile-link{
     display: flex;
     flex-direction: column;
@@ -1827,4 +1869,23 @@ padding-top: 1.5rem;
     margin: 0;
     padding: 0 1.35rem;
   }
+  .home-content h4{
+    padding: 0;
+  }
 }
+
+.skeleton{
+  opacity: .7;
+  animation: skeletonloading 1s linear infinite alternate;
+}
+
+@keyframes skeletonloading {
+  0%{
+    background-color: hsl(200, 20%, 70%);
+  }
+  100%{
+    background-color: hsl(200, 20%, 95%);
+  }
+}
+
+

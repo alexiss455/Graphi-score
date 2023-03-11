@@ -16,11 +16,12 @@
       <div class="containers">
         <div class="home-content">
           <h1>What is the Best for you?</h1>
-          <h4>Define the best GPU you experience</h4>
+          <h4>💻Define the best GPU you experience</h4>
           <p>
             GraphiScore rating measures the performance, specifications, and
             features of a graphics card.
           </p>
+          <a href="#GPU" class="content_browse"><i class='bx bx-mouse'></i> Browse now <i class='bx bx-down-arrow-alt'></i></i></a>
         </div>
       </div>
     </div>
@@ -28,15 +29,13 @@
 </section>
 
 
-<div class="content_">
+<div class="content_" id="GPU">
 <main>
   <div class="products containers">
     <div class="rate">
       <h3>Most rate/review GPU products 🔥</h3>
 
       <div class="products-content">
-
-
         <% for (var i = 0; i < mostRated.length; i++) { %>
         <a href="/graphiscore/<%= mostRated[i]._id %>" class="products_link">
           <div class="products-card">
