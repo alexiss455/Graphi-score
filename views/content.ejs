@@ -1,7 +1,10 @@
 <%- include('partials/header'); -%>
 <div class="content_height">
-<section class="section-content">
 
+
+
+<section class="section-content">
+<div class="section-top-color"></div>
   <% if (success) { %>
     <% success.forEach(error => { %>
       <script>
@@ -11,9 +14,12 @@
     <% }); %>
   <% } %>
 
-  <main>
-    <div class="swiper">
+  
+  <main>  
       <div class="containers">
+
+        <div class="content_containers">
+
         <div class="home-content">
           <h1>What is the Best for you?</h1>
           <h4>💻Define the best GPU you experience</h4>
@@ -23,8 +29,22 @@
           </p>
           <a href="#GPU" class="content_browse"><i class='bx bx-mouse'></i> Browse now <i class='bx bx-down-arrow-alt'></i></i></a>
         </div>
+
+        <div class="content_animation">
+          <div class="animation_container">
+
+            <div class="content_animation_back"></div>
+            <div class="content_animation_front">
+              <img src="/img/logs.png" alt="LOGOS" class="logo_content">
+            </div>
+
+          </div>
+        </div>
+
+        </div>
+
+
       </div>
-    </div>
   </main>
 </section>
 
@@ -76,7 +96,7 @@
                   </div>
 
                   <div class="review">
-                    <p><%= mostRated[i].description.substring(0, 150) %>..</p>
+                    <p><%= mostRated[i].description.substring(0,200) %>..</p>
                     <p class="all_reviews">
                       (<%= mostRated[i].totalReviews %>)Reviews
                     </p>
