@@ -1,8 +1,6 @@
 <%- include('partials/header'); -%>
 <div class="content_height">
 
-
-
 <section class="section-content">
 <div class="section-top-color"></div>
   <% if (success) { %>
@@ -14,7 +12,6 @@
     <% }); %>
   <% } %>
 
-  
   <main>  
       <div class="containers">
 
@@ -22,7 +19,7 @@
 
         <div class="home-content">
           <h1>What is the Best for you?</h1>
-          <h4>💻Define the best GPU you experience</h4>
+          <h3>💻Define the best GPU you experience</h3>
           <p>
             GraphiScore rating measures the performance, specifications, and
             features of a graphics card.
@@ -43,17 +40,15 @@
 
         </div>
 
-
       </div>
   </main>
 </section>
-
 
 <div class="content_" id="GPU">
 <main>
   <div class="products containers">
     <div class="rate">
-      <h3>Most rate/review GPU products 🔥</h3>
+      <h3>Most rate/review GraphiScore 🔥</h3>
 
       <div class="products-content">
         <% for (var i = 0; i < mostRated.length; i++) { %>
@@ -134,13 +129,15 @@
       <h3> NEWS LETTER 📰 </h3>
       <div class="content_subs">
         <img src="https://media2.giphy.com/media/KjafhxqcSbpci5Mbce/giphy.gif?cid=ecf05e47l21l1fa4db1wq49ktanvcwyy2j8sz495o1buxe6y&rid=giphy.gif&ct=g" alt="GIF">
+        <form action="/subs" method="post">
           <div class="subs">
-            <p>Get the best new GPU'S in your inbox, every day 👇</p>
 
-            <input type="text" placeholder="Your email">
-            <button>Subscribe</button>
+            <p>Get the best new GPU'S in your inbox, every day 👇</p>
+            <input type="email" placeholder="Your email" name="subscribe" autocomplete="off" required>
+            <button type="submit">Subscribe</button>
 
           </div>
+          </form>
       </div>
     </div>
   </div>

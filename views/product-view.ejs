@@ -74,53 +74,62 @@
     </div>
 
     <h1 class="rates-comment">Ratings & Reviews</h1>
-    <% productPrev[0].reviewrates.forEach(review => { %>
+    <% if(productPrev[0].reviewrates.length === 0){ %>
+      
+      <div class="prod-no-rev">
+        <p>No reviews found for this product yet</p>
+        <p><a href="/review/<%= productPrev[0]._id %>"> Be the first to write one! </a></p>
+      </div>
 
-    <div class="rates_reviews">
-      <a href="/profile/<%= review._id%>">
-        <div class="profile-size">
-          <div class="profile-circle">
-            <% if(review.profilePicture){ %>
-              <img src="<%= review.profilePicture %>" alt="profile_pic" class="profile" />
-            <% }else{ %>
-              <img src="/img/My_project1.png" alt="profile_pic" class="profile" />
-            <% } %> 
-           
-          </div>
-          <div class="profile-name">
-            <h3><%= review.displayName %></h3>
+    <% }else{ %>
 
-            <div id="comment_rate">
-              <div class="rating">
-                <div class="rating-upper">
-                  <span>★</span>
-                  <span>★</span>
-                  <span>★</span>
-                  <span>★</span>
-                  <span>★</span>
+        <% productPrev[0].reviewrates.forEach(review => { %>
+          <div class="rates_reviews">
+            <a href="/profile/<%= review._id%>">
+              <div class="profile-size">
+                <div class="profile-circle">
+                  <% if(review.profilePicture){ %>
+                    <img src="<%= review.profilePicture %>" alt="profile_pic" class="profile" />
+                  <% }else{ %>
+                    <img src="/img/My_project1.png" alt="profile_pic" class="profile" />
+                  <% } %> 
+                 
                 </div>
-                <div class="rating-lower">
-                  <span>★</span>
-                  <span>★</span>
-                  <span>★</span>
-                  <span>★</span>
-                  <span>★</span>
+                <div class="profile-name">
+                  <h3><%= review.displayName %></h3>
+      
+                  <div id="comment_rate">
+                    <div class="rating">
+                      <div class="rating-upper">
+                        <span>★</span>
+                        <span>★</span>
+                        <span>★</span>
+                        <span>★</span>
+                        <span>★</span>
+                      </div>
+                      <div class="rating-lower">
+                        <span>★</span>
+                        <span>★</span>
+                        <span>★</span>
+                        <span>★</span>
+                        <span>★</span>
+                      </div>
+                    </div>
+                    <p id="accout-rated"><%= review.rate %></p>
+                  </div>
                 </div>
               </div>
-              <p id="accout-rated"><%= review.rate %></p>
+            </a>
+            <div class="review-comment">
+              <span><%= review.review %></span>
+            </div>
+            <div class="time-date">
+              <span><%= review.date %></span>
             </div>
           </div>
-        </div>
-      </a>
-      <div class="review-comment">
-        <span><%= review.review %></span>
-      </div>
-      <div class="time-date">
-        <span><%= review.date %></span>
-      </div>
-    </div>
+          <% }) %>
+    <% } %>
 
-    <% }) %>
   </div>
 </main>
 </div>

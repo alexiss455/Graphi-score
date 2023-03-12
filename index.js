@@ -76,13 +76,13 @@ const items = new Product({
   description: "The all-new generation of ZOTAC GAMING GeForce GTX graphics cards are here. Based on the new NVIDIA Turing architecture, it’s packed with GDDR6 ultra-fast memory. Get ready to get fast and game strong."
 });
 
-items.save(function(err){
- if(!err){
-  console.log("success")
- }else{
-  console.log(err)
- }
-});
+// items.save(function(err){
+//  if(!err){
+//   console.log("success")
+//  }else{
+//   console.log(err)
+//  }
+// });
 
 
 
@@ -96,7 +96,6 @@ const review_rate = new mongoose.Schema({
   },
   date: {
     type: Date,
-    default: Date.now,
   },
   product: {
     type: mongoose.Schema.Types.ObjectId,
@@ -352,6 +351,7 @@ app.post("/review", (req, res) => {
             } else if (existingReview) {
               existingReview.rating = rate;
               existingReview.review = review_area;
+              existingReview.date = Date.now();
               existingReview.save((err) => {
                 if (err) {
 
@@ -372,6 +372,7 @@ app.post("/review", (req, res) => {
                 review: review_area,
                 product: foundProduct,
                 userReview: user,
+                date: Date.now()
               });
               rating_review_item.save((err) => {
                 if (err) {
@@ -504,7 +505,7 @@ app.get("/graphiscore/:_id", (req, res) => {
       },
     },
   ]).exec((err, productPrev) => {
-
+    console.log(productPrev)
       if (productPrev.length === 0) {
         res.render("error", { message: "Product not found" });
       } else {
@@ -681,12 +682,45 @@ app.get("/products", async function(req, res) {
     res.status(500).json({ message: err.message });
   }
 });
-
 app.get("/about", function(req, res){
-
   res.render("about")
 
 });
+
+const nodemailer = require("nodemailer");
+
+app.post('/subs', (req, res) => {
+  var subs = req.body.subscribe
+  console.log(subs);
+  
+
+  let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: "jononombeng@gmail.com", // generated ethereal user
+      pass: "ylqqimdqstysvwgn" // generated ethereal password
+    }
+  });
+
+  let datails = {
+    from: "jononombeng@gmail.com",
+    to: subs,
+    subject: "Grapiscore",
+    html: "<h1>Grapiscore</h1><p>Thank you for subscribing to our website! You will now receive daily updates on the best new GPU's available in the market. Stay up-to-date with the latest technology and be the first to know about exclusive deals and promotions. We appreciate your interest in our website and look forward to providing you with valuable insights on the latest GPU releases. Thank you for joining our community!</p>",
+  };
+
+  transporter.sendMail(datails, function(err){
+    if (!err) {
+      console.log("success");
+      req.flash("success", "Thank you for subscirbe 😍");
+      res.redirect("/")
+    } else {
+      console.log(err)
+      res.redirect("/")
+    }
+  });
+});
+
 
 app.listen(3000 || process.env.PORT, function () {
   console.log("Server started on port 3000");
