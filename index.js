@@ -291,7 +291,6 @@ app.get("/usersWhoRated", async (req, res) => {
     }
   }
   ]).exec();
-  console.log(result)
   if (result[0] && result[0].avgRating) {
     result[0].avgRating = parseFloat(result[0].avgRating.toFixed(1));
   }
@@ -505,7 +504,6 @@ app.get("/graphiscore/:_id", (req, res) => {
       },
     },
   ]).exec((err, productPrev) => {
-    console.log(productPrev)
       if (productPrev.length === 0) {
         res.render("error", { message: "Product not found" });
       } else {

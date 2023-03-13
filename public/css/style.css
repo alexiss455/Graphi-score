@@ -1522,6 +1522,7 @@ row-gap: .4rem;
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 2.3rem;
+  row-gap: 2.3rem;
 }
 .abt_{
   position: relative;
@@ -1529,9 +1530,22 @@ row-gap: .4rem;
 .abt_img{
   height: 100%;
   width: 100%;
+  max-width: 400px;
+  max-height: 500px;
   object-fit: cover;
   object-position: center;
   display: flex;
+  margin: auto;
+}
+.abt_imgs{
+  height: 100%;
+  width: 100%;
+  max-width: 374px;
+  max-height: 400px;
+  object-fit: cover;
+  object-position: center;
+  display: flex;
+  margin: auto;
 }
 .abt_back{
   width: 100%;
