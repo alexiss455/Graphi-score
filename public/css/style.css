@@ -10,7 +10,7 @@
   /*========== Colors ==========*/
   /*Color mode HSL(hue, saturation, lightness)*/
   --first-color: #030303;
-  --text-color: hsl(0, 0%, 80%);
+  --text-color: hsl(0, 0%, 100%);
   --text-color-backgroud: hsl(0, 0%, 100%);
   --text-color-hover: rgba(223, 223, 223, 0.836);
   --btn-color: rgb(17, 85, 0);
@@ -90,16 +90,14 @@ header {
   width: 100%;
   background: var(--first-color);
   color: var(--text-color-backgroud);
-  padding: 2rem 0;
+  padding: 2rem 0rem 1rem;
   text-align: center;
   color: rgb(203, 203, 203);
 }
 .footer-icons {
-  margin: 0 3rem;
   margin-top: 4rem;
   display: flex;
-  justify-content: space-between;
-  color: var(--text-color-backgroud);
+  justify-content: center;
 }
 .footer-icons a {
   color: rgb(203, 203, 203);
@@ -107,12 +105,10 @@ header {
   transition: 0.4s;
 }
 .footer-icons a:hover {
-  color: white;
+  color: rgba(255, 255, 255, 0.52)
 }
-.footer-links ul {
-  display: flex;
-  column-gap: 2rem;
-}
+
+
 .icons-foot ul {
   display: flex;
   flex-direction: row;
@@ -278,7 +274,7 @@ header {
 .section-top-color{
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 31, 1, 0.268);
+  background-color: rgba(0, 19, 0, 0.599);
   position: absolute;
   z-index: -100;
 }
@@ -546,6 +542,9 @@ header {
   display: grid;
   grid-template-columns: 1fr 1.5fr;
   overflow: hidden;
+  box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.37);
+  -webkit-box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.37);
+  -moz-box-shadow: 0px 0px 14px 2px rgba(0,0,0,0.37);
   color: var(--first-color);
   margin: 10rem;
   margin-top: 2rem;
@@ -964,6 +963,7 @@ padding: 1rem;
   overflow: hidden;
   width: 80px;
   height: 80px;
+  background-color: #efefef
 }
 .profile-size {
   display: flex;
@@ -1162,6 +1162,7 @@ padding: 1rem;
   object-position: center;
 }
 .profile_settings_picture{
+  background-color: #efefef;
   justify-content: center;
   align-items: center;
   display: flex;
@@ -1317,6 +1318,7 @@ padding: 1rem;
   margin-top: 1.5rem;
 }
 .accont-img-upload{
+  background-color: #efefef;
   width: 200px;
   height: 200px;
   border-radius: 50%;
@@ -1551,6 +1553,8 @@ padding-top: 1.5rem;
 .abt_name :nth-child(2){
   color: gray;
 }
+
+
 /* account settings */
 .upload_image{
   z-index: 100;
@@ -1558,7 +1562,7 @@ padding-top: 1.5rem;
   flex-direction: column;
   justify-content: center;
   position: fixed;
-  margin-top: -25rem;
+  margin-top: -15rem;
   background-color: rgb(255, 255, 255);
   padding: 1.5rem 1rem;
   box-shadow: 0px 0px 14px 2px rgba(0,0,0,0.37);
@@ -1743,10 +1747,6 @@ padding-top: 1.5rem;
   .rate_review {
     grid-template-columns: 1fr;
   }
-  /* .products-content {
-    grid-template-columns: 100%;
-    column-gap: 1rem;
-  } */
   .container-login {
     grid-template-columns: 1fr;
     grid-template-rows: 0.5fr 1fr;
@@ -1831,7 +1831,7 @@ padding-top: 1.5rem;
   }
   .home-content h1 {
     font-size: 2rem;
-    font-weight: 700;
+    font-weight: 900;
   }
   .logo {
     position: absolute;
@@ -1862,22 +1862,6 @@ padding-top: 1.5rem;
   .login-form p {
     font-size: 1rem;
     color: #575757;
-  }
-  .footer-icons {
-    display: flex;
-    flex-direction: column;
-    row-gap: 2rem;
-    align-items: center;
-    justify-content: center;
-    margin: 0% 0.4rem;
-    margin-top: 2rem;
-  }
-  .footer-links a {
-    font-size: 0.7rem;
-  }
-
-  .footer-links ul {
-    column-gap: 0.8rem;
   }
   .footer-content {
     margin: 0;

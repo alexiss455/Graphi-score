@@ -64,13 +64,13 @@ try {
     //  view input show
      const viewResult = document.getElementById("search-results-review");
      const inputview = document.getElementById("search-product-review"); 
-  
+
      inputview.addEventListener("click", async function(){
       inputview.value = "";
        if(viewResult === "block"){ 
          viewResult.style.display = "none"
        }else{
-         viewResult.style.display = "block"  
+         viewResult.style.display = "block"
        }
      });   
     //  In this code, the document object is listened for a click event.
@@ -93,6 +93,7 @@ try {
   var uploadLink = document.querySelector(".upload_image_link");
   var upload_image = document.querySelector(".upload_image");
   var accout_op = document.querySelector(".accont_settings")
+  const body = document.querySelector('body');
 try {
 
   uploadLink.addEventListener("click", function(){ 
@@ -101,8 +102,11 @@ try {
     if(display === "none"){ 
       accout_op.style.display = "block"
       upload_image.style.display = "block";
+      file_input.focus()
+      body.style.overflow = 'hidden';
     } else {
       upload_image.style.display = "none";  
+      body.style.overflow = 'auto';
     }
   });
 
@@ -110,27 +114,40 @@ document.addEventListener("click", function(event) {
   if (!uploadLink.contains(event.target) &&  !upload_image.contains(event.target)) {
     upload_image.style.display = "none";
     accout_op.style.display = "none"
+    body.style.overflow = 'auto';
   }
 });
-
 var imgs_upload = document.querySelector("#preview-image")
 document.querySelector(".btn_upload_img").addEventListener("click", async function(){
   try {
     const response = await fetch(file_input.value);
+
     if (response.ok) {
-      const val = file_input.value;
-      // hidden_file.value = val;
-      console.log( hidden_file.value = val)
-      preview_image.src = val;
-      upload_image.style.display = "none";
-      accout_op.style.display = "none"
-    } else {
+      if(file_input.value == ''){
+        console.log("hello")
+        imgs_upload.setAttribute("src", "/img/My_project1.png")
+        toastr.options.positionClass = "toast-bottom-right";
+        toastr.error("Url is Invalid! 😭");
+      }else{
+        const val = file_input.value; 
+        hidden_file.value = val;
+        preview_image.src = val;
+        upload_image.style.display = "none";
+        accout_op.style.display = "none"
+        body.style.overflow = 'auto';
+      }
+    }else {
+        toastr.options.positionClass = "toast-bottom-right";
+        toastr.error("Url is Invalid! 😭");
         accout_op.style.display = "none"
         upload_image.style.display = "none";
         imgs_upload.setAttribute("src", "/img/My_project1.png")
+        body.style.overflow = 'auto';
     }
   } catch (error) {
   }
+
+
 });
 
 } catch (error) {

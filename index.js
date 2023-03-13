@@ -334,7 +334,7 @@ app.post("/review", (req, res) => {
 
   } else if (rate === undefined) {
 
-    req.flash("error", "Please leave a rate!")
+    req.flash("error", "No GPU selected/rated")
     console.log("no selected rate");
     res.redirect(req.headers.referer || "/review")
 
